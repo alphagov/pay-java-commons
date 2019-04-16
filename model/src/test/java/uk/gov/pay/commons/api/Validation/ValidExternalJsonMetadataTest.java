@@ -46,6 +46,26 @@ public class ValidExternalJsonMetadataTest {
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(0));
     }
+    
+    @Test
+    public void shouldCollateMultipleErrors() {
+        ObjectNode invalidMetadata = objectMapper.createObjectNode();
+        invalidMetadata.set("key", objectMapper.createObjectNode());
+        
+        String tooLongKeyName = "this key is over thirty characters long and is invalid";
+        invalidMetadata.put(tooLongKeyName, "value1");
+
+        String tooLongValue = "this string is over fifty characters long by the time I've finished typing";
+        invalidMetadata.put("key1", tooLongValue);
+
+        invalidMetadata.put(null, "someValue");
+
+        invalidMetadata.set("key2", null);
+
+        TestClass aTestClass = new TestClass(invalidMetadata);
+        Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
+        assertThat(violationSet.size(), is(5));
+    }
 
     @Test
     public void shouldFailValidationMultipleInvalidValueTypes() {
@@ -155,7 +175,7 @@ public class ValidExternalJsonMetadataTest {
     @Test
     public void shouldFailValidationForNullValue() {
         ObjectNode invalidMetadata = objectMapper.createObjectNode();
-        invalidMetadata.set("key1", (JsonNode) null);
+        invalidMetadata.set("key1", null);
         TestClass aTestClass = new TestClass(invalidMetadata);
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
