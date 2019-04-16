@@ -1,61 +1,22 @@
 package uk.gov.pay.commons.api.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import fj.data.List;
-import fj.data.Stream;
+import com.google.common.collect.Streams;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.function.BiFunction;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import static fj.data.List.arrayList;
 import static java.lang.String.format;
+import static java.util.Collections.emptySet;
 
 public class ExternalJsonMetadataValidator implements ConstraintValidator<ValidExternalJsonMetadata, JsonNode> {
 
     private static final int MAXIMUM_KEYS = 10;
     private static final int MAXIMUM_VALUE_LENGTH = 50;
     private static final int MAXIMUM_KEY_LENGTH = 30;
-
-    private static final BiFunction<JsonNode, List<String>, List<String>> VALIDATE_KEY_VALUE_PAIRS = (jsonNode, errors) -> {
-        if (jsonNode.isArray()) return arrayList("must be an object of JSON key-value pairs").append(errors);
-        return errors;
-    };
-
-    private static final BiFunction<JsonNode, List<String>, List<String>> VALIDATE_MAX_NUMBER_OF_KEY_PAIRS = (jsonNode, errors) -> {
-        if (jsonNode.size() > MAXIMUM_KEYS)
-            return arrayList(format("cannot have more than %d key-value pairs", MAXIMUM_KEYS));
-        return errors;
-    };
-
-    private static final BiFunction<JsonNode, List<String>, List<String>> VALIDATE_KEYS_ARE_NOT_NULL = (jsonNode, errors) -> {
-        var blankOrNullKeys = Stream.iteratorStream(jsonNode.fields())
-                .filter(entry -> entry.getKey() == null)
-                .toList();
-        if (blankOrNullKeys.length() > 0) return arrayList("keys must not be null").append(errors);
-        return errors;
-    };
-
-    private static final BiFunction<JsonNode, List<String>, List<String>> VALIDATE_KEY_LENGTHS = (jsonNode, errors) ->
-            Stream.iteratorStream(jsonNode.fields())
-                    .filter(entry -> entry.getKey() != null && keyLengthIsInvalid(entry.getKey()))
-                    .foldLeft((accumulatedErrors, entry) ->
-                                    arrayList(format("keys must be between 1 and %d characters long", MAXIMUM_KEY_LENGTH)).append(accumulatedErrors),
-                            errors);
-
-    private static final BiFunction<JsonNode, List<String>, List<String>> VALIDATE_VALUE_TYPES = (jsonNode, errors) ->
-            Stream.iteratorStream(jsonNode.fields())
-                    .filter(entry -> valueTypeIsNotAllowed(entry.getValue()))
-                    .foldLeft((accumulatedErrors, entry) ->
-                                    arrayList(format("value for '%s' must be of type string, boolean or number", entry.getKey())).append(accumulatedErrors),
-                            errors);
-
-    private static final BiFunction<JsonNode, List<String>, List<String>> validateValueLengths = (jsonNode, errors) ->
-            Stream.iteratorStream(jsonNode.fields())
-                    .filter(entry -> entry.getValue().asText().length() > MAXIMUM_VALUE_LENGTH)
-                    .foldLeft((accumulatedErrors, entry) ->
-                                    arrayList(format("value for '%s' must be a maximum of %d characters", entry.getKey(), MAXIMUM_VALUE_LENGTH)).append(accumulatedErrors),
-                            errors);
 
     @Override
     public boolean isValid(JsonNode jsonNode, ConstraintValidatorContext constraintValidatorContext) {
@@ -64,20 +25,50 @@ public class ExternalJsonMetadataValidator implements ConstraintValidator<ValidE
 
         constraintValidatorContext.disableDefaultConstraintViolation();
 
-        List<String> errors =
-                validateValueLengths.apply(jsonNode,
-                        VALIDATE_VALUE_TYPES.apply(jsonNode,
-                                VALIDATE_KEY_LENGTHS.apply(jsonNode,
-                                        VALIDATE_KEYS_ARE_NOT_NULL.apply(jsonNode,
-                                                VALIDATE_MAX_NUMBER_OF_KEY_PAIRS.apply(jsonNode,
-                                                        VALIDATE_KEY_VALUE_PAIRS.apply(jsonNode, arrayList()))))));
+        Set<String> errors = new HashSet<>();
+        errors.addAll(validateIsObject(jsonNode));
+        errors.addAll(validateMaxNumberOfKeyPairs(jsonNode));
+        errors.addAll(validateKeyLengths(jsonNode));
+        errors.addAll(validateValueTypes(jsonNode));
+        errors.addAll(validateValueLengths(jsonNode));
 
-        if (errors.length() > 0) {
-            errors.toStream().forEach(e -> constraintValidatorContext.buildConstraintViolationWithTemplate(e).addConstraintViolation());
+        if (errors.size() > 0) {
+            errors.stream().forEach(e -> constraintValidatorContext.buildConstraintViolationWithTemplate(e).addConstraintViolation());
             return false;
         }
 
         return true;
+    }
+    
+    private static Set<String> validateIsObject(JsonNode jsonNode) {
+        if (!jsonNode.isObject()) return Set.of("metadata must be an object of JSON key-value pairs");
+        return emptySet();
+    };
+
+    private static Set<String> validateMaxNumberOfKeyPairs(JsonNode jsonNode) {
+        if (jsonNode.size() > MAXIMUM_KEYS) return Set.of(format("metadata cannot have more than %d key-value pairs", MAXIMUM_KEYS));
+        return emptySet();
+    };
+    
+    private static Set<String> validateKeyLengths(JsonNode jsonNode) {
+        return Streams.stream(jsonNode.fields())
+                .filter(entry -> entry.getKey() != null && keyLengthIsInvalid(entry.getKey()))
+                .map(e -> format("metadata keys must be between 1 and %d characters long", MAXIMUM_KEY_LENGTH))
+                .collect(Collectors.toSet());
+    }
+
+    private static Set<String> validateValueTypes(JsonNode jsonNode) {
+        return Streams.stream(jsonNode.fields())
+                .filter(entry -> valueTypeIsNotAllowed(entry.getValue()))
+                .map(e -> format("metadata value for '%s' must be of type string, boolean or number", e.getKey()))
+                .collect(Collectors.toSet());
+    }
+
+    private static Set<String> validateValueLengths(JsonNode jsonNode) {
+        return Streams.stream(jsonNode.fields())
+                .filter(entry -> entry.getValue().asText().length() > MAXIMUM_VALUE_LENGTH)
+                .map(e -> format("metadata value for '%s' must be a maximum of %d characters", e.getKey(), MAXIMUM_VALUE_LENGTH))
+                .collect(Collectors.toSet());
     }
 
     private static boolean keyLengthIsInvalid(String key) {

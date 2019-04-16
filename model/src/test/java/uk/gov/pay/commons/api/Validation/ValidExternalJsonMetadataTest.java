@@ -58,13 +58,11 @@ public class ValidExternalJsonMetadataTest {
         String tooLongValue = "this string is over fifty characters long by the time I've finished typing";
         invalidMetadata.put("key1", tooLongValue);
 
-        invalidMetadata.put(null, "someValue");
-
         invalidMetadata.set("key2", null);
 
         TestClass aTestClass = new TestClass(invalidMetadata);
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
-        assertThat(violationSet.size(), is(5));
+        assertThat(violationSet.size(), is(4));
     }
 
     @Test
@@ -77,8 +75,8 @@ public class ValidExternalJsonMetadataTest {
         TestClass aTestClass = new TestClass(invalidMetadata);
 
         Set<String> expectedErrors = Set.of(
-                "value for 'key1' must be of type string, boolean or number",
-                "value for 'key2' must be of type string, boolean or number");
+                "metadata value for 'key1' must be of type string, boolean or number",
+                "metadata value for 'key2' must be of type string, boolean or number");
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(2));
@@ -97,7 +95,7 @@ public class ValidExternalJsonMetadataTest {
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("cannot have more than " + maximumKeysAllowed + " key-value pairs"));
+        assertThat(violationSet.iterator().next().getMessage(), is("metadata cannot have more than " + maximumKeysAllowed + " key-value pairs"));
     }
 
     @Test
@@ -109,7 +107,7 @@ public class ValidExternalJsonMetadataTest {
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("keys must be between 1 and 30 characters long"));
+        assertThat(violationSet.iterator().next().getMessage(), is("metadata keys must be between 1 and 30 characters long"));
     }
 
     @Test
@@ -120,7 +118,7 @@ public class ValidExternalJsonMetadataTest {
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("keys must be between 1 and 30 characters long"));
+        assertThat(violationSet.iterator().next().getMessage(), is("metadata keys must be between 1 and 30 characters long"));
     }
 
     @Test
@@ -132,7 +130,7 @@ public class ValidExternalJsonMetadataTest {
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("value for 'key1' must be a maximum of 50 characters"));
+        assertThat(violationSet.iterator().next().getMessage(), is("metadata value for 'key1' must be a maximum of 50 characters"));
     }
 
     @Test
@@ -142,34 +140,7 @@ public class ValidExternalJsonMetadataTest {
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("must be an object of JSON key-value pairs"));
-    }
-
-    @Test
-    public void shouldFailValidationForNullKey() {
-        ObjectNode invalidMetadata = objectMapper.createObjectNode();
-        invalidMetadata.put(null, "someValue");
-        TestClass aTestClass = new TestClass(invalidMetadata);
-
-        Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
-        assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("keys must not be null"));
-    }
-
-    @Test
-    public void shouldFailValidationForNullKeyAndInvalidValue() {
-        ObjectNode invalidMetadata = objectMapper.createObjectNode();
-        invalidMetadata.set(null, objectMapper.createArrayNode());
-        Set<String> expectedErrorMessages = Set.of(
-                "keys must not be null",
-                "value for 'null' must be of type string, boolean or number");
-
-        TestClass aTestClass = new TestClass(invalidMetadata);
-
-        Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
-        assertThat(violationSet.size(), is(2));
-        assertThat(expectedErrorMessages.contains(violationSet.iterator().next().getMessage()), is(true));
-        assertThat(expectedErrorMessages.contains(violationSet.iterator().next().getMessage()), is(true));
+        assertThat(violationSet.iterator().next().getMessage(), is("metadata must be an object of JSON key-value pairs"));
     }
 
     @Test
@@ -180,7 +151,7 @@ public class ValidExternalJsonMetadataTest {
 
         Set<ConstraintViolation<TestClass>> violationSet = validator.validate(aTestClass);
         assertThat(violationSet.size(), is(1));
-        assertThat(violationSet.iterator().next().getMessage(), is("value for 'key1' must be of type string, boolean or number"));
+        assertThat(violationSet.iterator().next().getMessage(), is("metadata value for 'key1' must be of type string, boolean or number"));
     }
 
     public static class TestClass {
