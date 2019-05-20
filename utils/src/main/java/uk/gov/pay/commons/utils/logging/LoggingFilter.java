@@ -21,6 +21,8 @@ public class LoggingFilter implements Filter {
      * This key should match the value in our logging configuration e.g. %X{X-Request-Id:-(none)}
      */
     private static final String MDC_REQUEST_ID_KEY = "X-Request-Id";
+    
+    private static final String MDC_JSON_REQUEST_ID_KEY = "requestID";
 
     private final MetricRegistry metricRegistry;
 
@@ -46,8 +48,10 @@ public class LoggingFilter implements Filter {
 
         if (requestId == null) {
             MDC.remove(MDC_REQUEST_ID_KEY);
+            MDC.put(MDC_JSON_REQUEST_ID_KEY, "(none)");
         } else {
             MDC.put(MDC_REQUEST_ID_KEY, requestId);
+            MDC.put(MDC_JSON_REQUEST_ID_KEY, requestId);
         }
 
         logger.info("{} to {} began", requestMethod, requestURL);
