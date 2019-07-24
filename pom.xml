@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
         <assertj.version>1.7.25</assertj.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.10.0.pr1</jackson.version>
         <bintray.username/>
         <bintray.apiKey/>
         <maven.compiler.source>11</maven.compiler.source>
