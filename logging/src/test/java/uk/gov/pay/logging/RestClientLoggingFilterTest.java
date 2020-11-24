@@ -4,8 +4,6 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,8 +25,8 @@ import java.util.UUID;
 import static java.lang.String.format;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -104,9 +102,7 @@ public class RestClientLoggingFilterTest {
         assertThat(loggingEvents.get(0).getFormattedMessage(), is(format("[%s] - %s to %s began", requestId, requestMethod, requestUrl)));
         String endLogMessage = loggingEvents.get(1).getFormattedMessage();
         assertThat(endLogMessage, containsString(format("[%s] - %s to %s ended - total time ", requestId, requestMethod, requestUrl)));
-        String[] timeTaken = StringUtils.substringsBetween(endLogMessage, "total time ", "ms");
-        assertTrue(NumberUtils.isCreatable(timeTaken[0]));
-
+        assertThat(endLogMessage, matchesPattern(".*total time \\d+ms"));
     }
 }
 

@@ -4,7 +4,6 @@ import com.amazonaws.xray.AWSXRay;
 import com.amazonaws.xray.AWSXRayRecorder;
 import com.amazonaws.xray.entities.Namespace;
 import com.amazonaws.xray.entities.Subsegment;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.persistence.internal.sessions.AbstractRecord;
 import org.eclipse.persistence.internal.sessions.AbstractSession;
 import org.eclipse.persistence.queries.DatabaseQuery;
@@ -89,7 +88,7 @@ public class XRaySessionProfiler implements SessionProfiler {
     private Map<String, Object> getQueryMetadata(DatabaseQuery databaseQuery) {
         Map<String, Object> databaseMetadata = new HashMap<>();
         databaseMetadata.put("preparation", databaseQuery.isCallQuery() ? "call" : "statement");
-        databaseMetadata.put("sanitized_query", StringUtils.isEmpty(databaseQuery.getSQLString()) ? "" : databaseQuery.getSQLString());
+        databaseMetadata.put("sanitized_query", Optional.ofNullable(databaseQuery.getSQLString()).orElse(""));
         return databaseMetadata;
     }
 

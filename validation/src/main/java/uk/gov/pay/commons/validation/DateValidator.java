@@ -3,7 +3,7 @@ package uk.gov.pay.commons.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import java.util.Optional;
 
 public class DateValidator implements ConstraintValidator<ValidDate, String> {
 
@@ -13,6 +13,7 @@ public class DateValidator implements ConstraintValidator<ValidDate, String> {
     }
 
     public static boolean isValid(String value) {
-        return isBlank(value) || DateTimeUtils.toUTCZonedDateTime(value).isPresent();
+        return Optional.ofNullable(value).orElse("").isBlank()
+                || DateTimeUtils.toUTCZonedDateTime(value).isPresent();
     }
 }
