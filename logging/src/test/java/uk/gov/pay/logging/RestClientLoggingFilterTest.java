@@ -4,8 +4,6 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +21,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,12 +44,15 @@ public class RestClientLoggingFilterTest {
     @Mock
     private Appender<ILoggingEvent> mockAppender;
 
+    @Mock
+    private Supplier<Long> timeSource;
+
     @Captor
     ArgumentCaptor<LoggingEvent> loggingEventArgumentCaptor;
 
     @BeforeEach
     public void setup() {
-        loggingFilter = new RestClientLoggingFilter();
+        loggingFilter = new RestClientLoggingFilter(timeSource);
         Logger root = (Logger) LoggerFactory.getLogger(RestClientLoggingFilter.class);
         root.addAppender(mockAppender);
     }
@@ -76,7 +76,6 @@ public class RestClientLoggingFilterTest {
         List<LoggingEvent> loggingEvents = loggingEventArgumentCaptor.getAllValues();
 
         assertThat(loggingEvents.get(0).getFormattedMessage(), is(format("[%s] - %s to %s began", requestId, requestMethod, requestUrl)));
-
     }
 
     @Test
@@ -94,19 +93,17 @@ public class RestClientLoggingFilterTest {
         when(clientRequestContext.getHeaders()).thenReturn(mockHeaders);
         when(clientResponseContext.getHeaders()).thenReturn(mockHeaders2);
         MDC.put(LoggingKeys.MDC_REQUEST_ID_KEY, requestId);
-        loggingFilter.filter(clientRequestContext);
+        when(timeSource.get()).thenReturn(14_000L, 28_000L);
 
+        loggingFilter.filter(clientRequestContext);
         loggingFilter.filter(clientRequestContext, clientResponseContext);
 
         verify(mockAppender, times(2)).doAppend(loggingEventArgumentCaptor.capture());
         List<LoggingEvent> loggingEvents = loggingEventArgumentCaptor.getAllValues();
 
-        assertThat(loggingEvents.get(0).getFormattedMessage(), is(format("[%s] - %s to %s began", requestId, requestMethod, requestUrl)));
-        String endLogMessage = loggingEvents.get(1).getFormattedMessage();
-        assertThat(endLogMessage, containsString(format("[%s] - %s to %s ended - total time ", requestId, requestMethod, requestUrl)));
-        String[] timeTaken = StringUtils.substringsBetween(endLogMessage, "total time ", "ms");
-        assertTrue(NumberUtils.isCreatable(timeTaken[0]));
-
+        assertThat(loggingEvents.get(0).getFormattedMessage(),
+                is(format("[%s] - %s to %s began", requestId, requestMethod, requestUrl)));
+        assertThat(loggingEvents.get(1).getFormattedMessage(),
+                is(format("[%s] - %s to %s ended - total time 14ms", requestId, requestMethod, requestUrl)));
     }
 }
-
