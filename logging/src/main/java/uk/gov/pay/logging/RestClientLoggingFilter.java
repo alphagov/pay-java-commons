@@ -12,8 +12,8 @@ import javax.ws.rs.client.ClientResponseFilter;
 
 import java.util.function.Supplier;
 
-import static java.lang.String.format;
 import static net.logstash.logback.argument.StructuredArguments.kv;
+import static net.logstash.logback.marker.Markers.append;
 import static uk.gov.pay.logging.LoggingKeys.HTTP_STATUS;
 import static uk.gov.pay.logging.LoggingKeys.METHOD;
 import static uk.gov.pay.logging.LoggingKeys.RESPONSE_TIME;
@@ -42,12 +42,10 @@ public class RestClientLoggingFilter implements ClientRequestFilter, ClientRespo
         requestId.set(StringUtils.defaultString(MDC.get(LoggingKeys.MDC_REQUEST_ID_KEY)));
 
         requestContext.getHeaders().add(HEADER_REQUEST_ID, requestId.get());
-        logger.info(format("[%s] - %s to %s began",
+        logger.info("[{}] - {} to {} began",
                 requestId.get(),
-                requestContext.getMethod(),
-                requestContext.getUri(),
-                kv(METHOD, requestContext.getMethod()),
-                kv(URL, requestContext.getUri())));
+                kv(METHOD, requestContext.getMethod(), requestContext.getMethod()),
+                kv(URL, requestContext.getUri(), requestContext.getUri().toString()));
 
     }
 
@@ -55,15 +53,12 @@ public class RestClientLoggingFilter implements ClientRequestFilter, ClientRespo
     public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) {
         long elapsedMs = (timeSource.get() - startTimeNs.get()) / 1_000L;
         responseContext.getHeaders().add(HEADER_REQUEST_ID, requestId.get());
-        logger.info(format("[%s] - %s to %s ended - total time %dms",
+        logger.info(append(HTTP_STATUS, responseContext.getStatus()),
+                "[{}] - {} to {} ended - total time {}ms",
                 requestId.get(),
-                requestContext.getMethod(),
-                requestContext.getUri(),
-                elapsedMs),
-                kv(METHOD, requestContext.getMethod()),
-                kv(URL, requestContext.getUri()),
-                kv(HTTP_STATUS, responseContext.getStatus()),
-                kv(RESPONSE_TIME, elapsedMs));
+                kv(METHOD, requestContext.getMethod(), requestContext.getMethod()),
+                kv(URL, requestContext.getUri(), requestContext.getUri().toString()),
+                kv(RESPONSE_TIME, elapsedMs, Long.toString(elapsedMs)));
 
         requestId.remove();
         startTimeNs.remove();
