@@ -16,7 +16,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@d9126d7df2f1b080b603441eaf5810ced3614e78
         with:
-          java-version: 11
+          java-version: '11'
+          distribution: 'adopt'
       - name: Cache Maven packages
         uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353
         with:
