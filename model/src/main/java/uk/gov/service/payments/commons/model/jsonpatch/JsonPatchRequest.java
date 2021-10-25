@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.service.payments.commons.api.json.JsonMapper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -32,12 +33,20 @@ public class JsonPatchRequest {
         return value.isTextual();
     }
 
+    public boolean valueIsArray() {
+        return value.isArray();
+    }
+
     public boolean valueIsBoolean() {
         return value.isBoolean();
     }
 
     public String valueAsString() {
         return value.asText();
+    }
+
+    public List valueAsList() {
+        return objectMapper.convertValue(value, List.class);
     }
     
     public long valueAsLong() {
