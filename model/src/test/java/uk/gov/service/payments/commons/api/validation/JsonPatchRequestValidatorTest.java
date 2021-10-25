@@ -22,6 +22,8 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -116,7 +118,27 @@ class JsonPatchRequestValidatorTest {
         verify(addFooValidator).accept(eq(JsonPatchRequest.from(fooOperation)));
         verify(replaceBarValidator).accept(eq(JsonPatchRequest.from(barOperation)));
     }
-
+    
+    @Test
+    public void throwsIfNotArray() {
+        var patchRequest = objectMapper.valueToTree(Map.of("path", "foo",
+                "op", "replace",
+                "value", 1
+        ));
+        var thrown = assertThrows(ValidationException.class, () ->
+                JsonPatchRequestValidator.throwIfValueNotArray(JsonPatchRequest.from(patchRequest)));
+        assertThat(thrown.getErrors().get(0), is("Value for path [foo] must be an array"));
+    }    
+    
+    @Test
+    public void convertsToList() {
+        var patchRequestNode = objectMapper.valueToTree(Map.of("path", "foo",
+                "op", "replace",
+                "value", List.of("foo", "bar")));
+        var patchRequest = JsonPatchRequest.from(patchRequestNode);
+        assertEquals(patchRequest.valueAsList(), List.of("foo", "bar"));
+    }
+    
     private static JsonNode buildPatchRequest(Map<Object, Object> data) {
         Map<Object, Object> params = new HashMap<>();
         if (data.containsKey("operation")) {
