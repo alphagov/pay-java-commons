@@ -31,6 +31,10 @@ public class RequestValidator {
 
     public static List<String> checkIfExistsOrEmpty(JsonNode payload, String... fieldNames) {
         return applyCheck(payload, notExistOrEmpty(), fieldNames, "Field [%s] is required");
+    }    
+    
+    public static List<String> checkIfNull(JsonNode payload, String... fieldNames) {
+        return applyCheck(payload, isNullValue(), fieldNames, "Field [%s] is required");
     }
 
     public static List<String> checkMaxLength(JsonNode payload, int maxLength, String... fieldNames) {

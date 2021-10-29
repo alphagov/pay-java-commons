@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -58,20 +59,32 @@ class JsonPatchRequestValidatorTest {
                     Arguments.of("Field [op] must be one of [add, remove, replace]", buildPatchRequest(Map.of("operation", "cook", "path", "foo", "value", true))),
 
                     Arguments.of("Field [value] is required", buildPatchRequest(Map.of("operation", "add", "path", "foo"))),
-                    Arguments.of("Field [value] is required", buildPatchRequest(Map.of("operation", "add", "path", "foo", "value", ""))),
                     Arguments.of("Field [value] is required", buildPatchRequest(new HashMap<>() {{
                         put("operation", "add");
                         put("path", "foo");
                         put("value", null);
                     }})),
-                    Arguments.of("Field [value] is required", buildPatchRequest(new HashMap<>() {{
-                        put("operation", "add");
-                        put("path", "foo");
-                        put("value", Map.of());
-                    }})),
-
                     Arguments.of("Field [path] must be one of [bar, foo]", buildPatchRequest(Map.of("operation", "add", "path", "baz", "value", true))),
                     Arguments.of("Operation [replace] not supported for path [foo]", buildPatchRequest(Map.of("operation", "replace", "path", "foo", "value", true)))
+            );
+        }
+    }
+
+    static class ValidValuesTestProvider implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext)  {
+            return Stream.of(
+                    Arguments.of(buildPatchRequest(Map.of("operation", "replace", "path", "bar", "value", ""))),
+                    Arguments.of(buildPatchRequest(new HashMap<>() {{
+                        put("operation", "replace");
+                        put("path", "bar");
+                        put("value", List.of());
+                    }})),
+                    Arguments.of(buildPatchRequest(new HashMap<>() {{
+                        put("operation", "replace");
+                        put("path", "bar");
+                        put("value", Map.of());
+                    }}))
             );
         }
     }
@@ -128,8 +141,20 @@ class JsonPatchRequestValidatorTest {
         var thrown = assertThrows(ValidationException.class, () ->
                 JsonPatchRequestValidator.throwIfValueNotArray(JsonPatchRequest.from(patchRequest)));
         assertThat(thrown.getErrors().get(0), is("Value for path [foo] must be an array"));
-    }    
-    
+    }
+
+    @ArgumentsSource(ValidValuesTestProvider.class)
+    @ParameterizedTest
+    public void allowsEmptyValues(JsonNode request) {
+        Map<PatchPathOperation, Consumer<JsonPatchRequest>> operationValidators = Map.of(
+                new PatchPathOperation("bar", JsonPatchOp.REPLACE), (node) -> {}
+        );
+
+        var patchRequestValidator = new JsonPatchRequestValidator(operationValidators);
+
+        assertDoesNotThrow(() -> patchRequestValidator.validate(request));
+    }
+
     @Test
     public void convertsToList() {
         var patchRequestNode = objectMapper.valueToTree(Map.of("path", "foo",
