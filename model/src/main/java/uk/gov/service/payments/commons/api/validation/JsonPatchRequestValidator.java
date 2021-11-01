@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static uk.gov.service.payments.commons.model.jsonpatch.JsonPatchKeys.FIELD_OPERATION;
@@ -37,7 +38,9 @@ public class JsonPatchRequestValidator {
         }
 
         for (JsonNode jsonNode : payload) {
-            List<String> fieldErrors = RequestValidator.checkIfExistsOrEmpty(jsonNode, FIELD_OPERATION, FIELD_OPERATION_PATH, FIELD_VALUE);
+            List<String> fieldErrors = Stream.concat(RequestValidator.checkIfExistsOrEmpty(jsonNode, FIELD_OPERATION, FIELD_OPERATION_PATH).stream(),
+                            RequestValidator.checkIfNull(jsonNode, FIELD_VALUE).stream())
+                    .collect(Collectors.toList());
             if (!fieldErrors.isEmpty()) {
                 throw new ValidationException(fieldErrors);
             }
