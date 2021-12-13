@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <dropwizard.version>2.0.25</dropwizard.version>
+        <dropwizard.version>2.0.26</dropwizard.version>
         <eclipselink.version>2.7.9</eclipselink.version>
     </properties>
 
