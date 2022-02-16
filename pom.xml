@@ -47,6 +47,7 @@
         <module>model</module>
         <module>validation</module>
         <module>logging</module>
+        <module>queue</module>
     </modules>
 
     <dependencies>
