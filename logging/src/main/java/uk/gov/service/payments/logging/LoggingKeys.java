@@ -209,4 +209,8 @@ public interface LoggingKeys {
      */
     String STRIPE_EVENT_ID = "stripe_event_id";
 
+    /**
+     * The id of a dispute from gateway (Stripe specific)
+     */
+    String GATEWAY_DISPUTE_ID = "gateway_dispute_id";
 }
