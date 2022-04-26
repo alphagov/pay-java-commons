@@ -9,6 +9,8 @@ public enum AuthorisationMode {
     WEB("web"),
     @JsonProperty("moto_api")
     MOTO_API("moto_api"),
+    @JsonProperty("agreement")
+    AGREEMENT("agreement"),
     @JsonProperty("external")
     EXTERNAL("external");
 
