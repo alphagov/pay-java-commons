@@ -31,7 +31,6 @@ public class PostgresContainer {
     private final String containerId;
     private final int port;
     private DockerClient docker;
-    private String host;
     private volatile boolean stopped = false;
     private String dbPassword;
     private String dbUsername;
@@ -40,8 +39,6 @@ public class PostgresContainer {
     private static final String INTERNAL_PORT = "5432";
 
     public PostgresContainer(DockerClient docker, String imageName, String dbUsername, String dbPassword) throws InterruptedException, IOException, ClassNotFoundException, DockerException {
-        Class.forName("org.postgresql.Driver");
-
         this.docker = docker;
         this.dbPassword = dbPassword;
         this.dbUsername = dbUsername;
@@ -64,6 +61,10 @@ public class PostgresContainer {
 
     public PostgresContainer() throws InterruptedException, IOException, ClassNotFoundException, DockerCertificateException, DockerException {
         this(DefaultDockerClient.fromEnv().build(), "govukpay/postgres:11.1", "postgres", "mysecretpassword");
+    }
+
+    public PostgresContainer(String imageName) throws InterruptedException, IOException, ClassNotFoundException, DockerCertificateException, DockerException {
+        this(DefaultDockerClient.fromEnv().build(), imageName, "postgres", "mysecretpassword");
     }
 
     public String getUsername() {
