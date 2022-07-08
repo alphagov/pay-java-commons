@@ -213,4 +213,10 @@ public interface LoggingKeys {
      * The id of a dispute from gateway (Stripe specific)
      */
     String GATEWAY_DISPUTE_ID = "gateway_dispute_id";
+
+    /**
+     * Dispute external Id
+     */
+    String DISPUTE_EXTERNAL_ID = "dispute_external_id";
+
 }
