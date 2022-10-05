@@ -7,21 +7,21 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.time.Instant;
 
-import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.ISO_INSTANT_MILLISECOND_PRECISION;
+import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.ISO_INSTANT_MICROSECOND_PRECISION;
 
-public class ApiResponseInstantSerializer extends StdSerializer<Instant> {
+public class ApiResponseInstantWithMicrosecondPrecisionSerializer extends StdSerializer<Instant> {
 
-    public ApiResponseInstantSerializer() {
+    public ApiResponseInstantWithMicrosecondPrecisionSerializer() {
         this(null);
     }
 
-    private ApiResponseInstantSerializer(Class<Instant> t) {
+    private ApiResponseInstantWithMicrosecondPrecisionSerializer(Class<Instant> t) {
         super(t);
     }
 
     @Override
     public void serialize(Instant value, JsonGenerator gen, SerializerProvider sp) throws IOException {
-        gen.writeString(ISO_INSTANT_MILLISECOND_PRECISION.format(value));
+        gen.writeString(ISO_INSTANT_MICROSECOND_PRECISION.format(value));
     }
 
 }
