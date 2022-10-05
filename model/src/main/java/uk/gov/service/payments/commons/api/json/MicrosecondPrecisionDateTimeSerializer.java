@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class MicrosecondPrecisionDateTimeSerializer extends StdSerializer<ZonedDateTime>  {
 
     public static final DateTimeFormatter MICROSECOND_FORMATTER =

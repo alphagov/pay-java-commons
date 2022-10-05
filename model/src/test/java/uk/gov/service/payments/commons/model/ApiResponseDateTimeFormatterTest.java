@@ -3,21 +3,21 @@ package uk.gov.service.payments.commons.model;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-import static java.time.Month.OCTOBER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.*;
+import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.ISO_INSTANT_MICROSECOND_PRECISION;
+import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.ISO_INSTANT_MILLISECOND_PRECISION;
+import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.ISO_LOCAL_DATE_IN_UTC;
 
 class ApiResponseDateTimeFormatterTest {
 
     @Test
-    void shouldConvertInstantToIsoStringWithMillisecondPrecision() {
+    void isoInstantMillisecondPrecisionConvertsInstantToIsoStringWithMillisecondPrecision() {
         var instant = Instant.parse("2015-10-21T07:28:00.12356789Z");
 
         String result = ISO_INSTANT_MILLISECOND_PRECISION.format(instant);
@@ -26,18 +26,17 @@ class ApiResponseDateTimeFormatterTest {
     }
 
     @Test
-    void shouldConverInstantExactlyOnTheSecondToIsoStringWithMillisecondPrecision() {
+    void isoInstantMillisecondPrecisionConvertsInstantExactlyOnTheSecondToIsoStringWithMillisecondPrecision() {
         var instant = Instant.parse("2015-10-21T07:28:00Z");
 
         String result = ISO_INSTANT_MILLISECOND_PRECISION.format(instant);
 
         assertThat(result, is("2015-10-21T07:28:00.000Z"));
     }
-    
+
     @Test
-    void shouldConvertUtcZonedDateTimeToIsoStringWithMillisecondPrecision() {
-        var zonedDateTime = ZonedDateTime.of(LocalDate.of(2015, OCTOBER, 21),
-                LocalTime.of(7, 28, 0, 123456789), ZoneOffset.UTC);
+    void isoInstantMillisecondPrecisionConvertsUtcZonedDateTimeToIsoStringWithMillisecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00.123456789"), ZoneOffset.UTC);
 
         String result = ISO_INSTANT_MILLISECOND_PRECISION.format(zonedDateTime);
 
@@ -45,9 +44,9 @@ class ApiResponseDateTimeFormatterTest {
     }
 
     @Test
-    void shouldConvertNonUtcZonedDateTimeToIsoStringWithMillisecondPrecision() {
-        var zonedDateTime = ZonedDateTime.of(LocalDate.of(2015, OCTOBER, 21),
-                LocalTime.of(7, 28, 0, 123456789), ZoneId.of("America/Los_Angeles"));
+    void isoInstantMillisecondPrecisionConvertsNonUtcZonedDateTimeToIsoStringWithMillisecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00.123456789"),
+                ZoneId.of("America/Los_Angeles"));
 
         String result = ISO_INSTANT_MILLISECOND_PRECISION.format(zonedDateTime);
 
@@ -55,13 +54,103 @@ class ApiResponseDateTimeFormatterTest {
     }
 
     @Test
-    void shouldConvertZonedDateTimeExactlyOnTheSecondToIsoStringWithMillisecondPrecision() {
-        var zonedDateTime = ZonedDateTime.of(LocalDate.of(2015, OCTOBER, 21),
-                LocalTime.of(7, 28, 0), ZoneOffset.UTC);
+    void isoInstantMillisecondPrecisionConvertsZonedDateTimeExactlyOnTheSecondToIsoStringWithMillisecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00"), ZoneOffset.UTC);
 
         String result = ISO_INSTANT_MILLISECOND_PRECISION.format(zonedDateTime);
 
         assertThat(result, is("2015-10-21T07:28:00.000Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsInstantToIsoStringWithMicrosecondPrecision() {
+        var instant = Instant.parse("2015-10-21T07:28:00.12356789Z");
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(instant);
+
+        assertThat(result, is("2015-10-21T07:28:00.123567Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsInstantExactlyOnTheSecondToIsoStringWithMicrosecondPrecision() {
+        var instant = Instant.parse("2015-10-21T07:28:00Z");
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(instant);
+
+        assertThat(result, is("2015-10-21T07:28:00.000000Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsInstantExactlyOnTheMillisecondToIsoStringWithMicrosecondPrecision() {
+        var instant = Instant.parse("2015-10-21T07:28:00.123Z");
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(instant);
+
+        assertThat(result, is("2015-10-21T07:28:00.123000Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsUtcZonedDateTimeToIsoStringWithMicrosecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00.123456789"), ZoneOffset.UTC);
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(zonedDateTime);
+
+        assertThat(result, is("2015-10-21T07:28:00.123456Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsNonUtcZonedDateTimeToIsoStringWithMicrosecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00.123456789"),
+                ZoneId.of("America/Los_Angeles"));
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(zonedDateTime);
+
+        assertThat(result, is("2015-10-21T14:28:00.123456Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsZonedDateTimeExactlyOnTheSecondToIsoStringWithMicrosecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00"), ZoneOffset.UTC);
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(zonedDateTime);
+
+        assertThat(result, is("2015-10-21T07:28:00.000000Z"));
+    }
+
+    @Test
+    void isoInstantMicrosecondPrecisionConvertsZonedDateTimeExactlyOnTheMillisecondToIsoStringWithMicrosecondPrecision() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2015-10-21T07:28:00.123"), ZoneOffset.UTC);
+
+        String result = ISO_INSTANT_MICROSECOND_PRECISION.format(zonedDateTime);
+
+        assertThat(result, is("2015-10-21T07:28:00.123000Z"));
+    }
+
+    @Test
+    void isoLocalDateInUtcConvertsInstantToIsoLocalDateInUtc() {
+        var instant = Instant.parse("2022-10-04T12:34:56.789Z");
+
+        String result = ISO_LOCAL_DATE_IN_UTC.format(instant);
+
+        assertThat(result, is("2022-10-04"));
+    }
+
+    @Test
+    void isoLocalDateInUtcConvertsZonedDateTimeInUtcToIsoLocalDateInUtc() {
+        var zonedDateTime = ZonedDateTime.parse("2022-10-04T12:34:56.789Z");
+
+        String result = ISO_LOCAL_DATE_IN_UTC.format(zonedDateTime);
+
+        assertThat(result, is("2022-10-04"));
+    }
+
+    @Test
+    void isoLocalDateInUtcConvertsZonedDateTimeInAnotherTimeZoneWhereItIsAlreadyTomorrowToIsoLocalDateInUtc() {
+        var zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("2022-10-05T06:07:08.123"), ZoneId.of("Pacific/Auckland"));
+
+        String result = ISO_LOCAL_DATE_IN_UTC.format(zonedDateTime);
+
+        assertThat(result, is("2022-10-04"));
     }
 
 }
