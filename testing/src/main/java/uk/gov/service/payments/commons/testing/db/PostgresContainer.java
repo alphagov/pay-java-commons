@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Integer.parseInt;
+import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 
 public class PostgresContainer {
@@ -30,15 +31,15 @@ public class PostgresContainer {
 
     private final String containerId;
     private final int port;
-    private DockerClient docker;
+    private final DockerClient docker;
     private volatile boolean stopped = false;
-    private String dbPassword;
-    private String dbUsername;
+    private final String dbPassword;
+    private final String dbUsername;
 
     private static final int DB_TIMEOUT_SEC = 15;
     private static final String INTERNAL_PORT = "5432";
 
-    public PostgresContainer(DockerClient docker, String imageName, String dbUsername, String dbPassword) throws InterruptedException, IOException, ClassNotFoundException, DockerException {
+    public PostgresContainer(DockerClient docker, String imageName, String dbUsername, String dbPassword) throws InterruptedException, IOException, DockerException {
         this.docker = docker;
         this.dbPassword = dbPassword;
         this.dbUsername = dbUsername;
@@ -63,8 +64,8 @@ public class PostgresContainer {
         this(DefaultDockerClient.fromEnv().build(), "govukpay/postgres:11.1", "postgres", "mysecretpassword");
     }
 
-    public PostgresContainer(String imageName) throws InterruptedException, IOException, ClassNotFoundException, DockerCertificateException, DockerException {
-        this(DefaultDockerClient.fromEnv().build(), imageName, "postgres", "mysecretpassword");
+    public PostgresContainer(String imageTag) throws InterruptedException, IOException, DockerCertificateException, DockerException {
+        this(DefaultDockerClient.fromEnv().build(), format("postgres:%s", imageTag), "postgres", "mysecretpassword");
     }
 
     public String getUsername() {
@@ -81,7 +82,6 @@ public class PostgresContainer {
 
     private void failsafeDockerPull(DockerClient docker, String image) {
         try {
-            docker.pull(image);
             docker.pull(image);
         } catch (Exception e) {
             logger.error("Docker image " + image + " could not be pulled from DockerHub", e);
@@ -111,7 +111,7 @@ public class PostgresContainer {
         logger.info("Postgres docker container started in {}.", timer.elapsed(TimeUnit.MILLISECONDS));
     }
 
-    private boolean checkPostgresConnection() throws IOException {
+    private boolean checkPostgresConnection() {
 
         Properties props = new Properties();
         props.setProperty("user", this.dbUsername);

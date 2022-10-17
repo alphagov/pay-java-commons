@@ -15,6 +15,7 @@
 
     <properties>
         <docker-client.version>8.16.0</docker-client.version>
+        <jnr-ffi.version>2.2.12</jnr-ffi.version>
         <pact.version>3.6.15</pact.version>
         <hamcrest.version>2.2</hamcrest.version>
     </properties>
@@ -49,6 +50,11 @@
             <groupId>com.spotify</groupId>
             <artifactId>docker-client</artifactId>
             <version>${docker-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jnr</groupId>
+            <artifactId>jnr-ffi</artifactId>
+            <version>2.2.12</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
