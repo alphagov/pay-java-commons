@@ -53,6 +53,7 @@ public class SqsQueueService {
             throw new QueueException(e.getMessage());
         }
     }
+    
     public List<QueueMessage> receiveMessages(String queueUrl, String messageAttributeName) throws QueueException {
         try {
             ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl);

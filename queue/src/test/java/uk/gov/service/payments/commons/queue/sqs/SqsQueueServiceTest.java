@@ -76,6 +76,23 @@ public class SqsQueueServiceTest {
         assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - {MessageId: test-message-id")), is(true));
     }
 
+    @Test
+    public void shouldSendMessageWithDelayToQueueSuccessfully() throws QueueException {
+        SendMessageResult sendMessageResult = new SendMessageResult();
+        sendMessageResult.setMessageId("test-message-id");
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE).withDelaySeconds(2);
+
+        when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
+
+        QueueMessage message = sqsQueueService.sendMessage(QUEUE_URL, MESSAGE, 2);
+        assertEquals("test-message-id", message.getMessageId());
+
+        verify(mockAppender, times(1)).doAppend(loggingEventArgumentCaptor.capture());
+        List<LoggingEvent> logEvents = loggingEventArgumentCaptor.getAllValues();
+
+        assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - {MessageId: test-message-id")), is(true));
+    }
+
     @Test(expected = QueueException.class)
     public void shouldThrowExceptionIfMessageIsNotSentToQueue() throws QueueException {
         SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
