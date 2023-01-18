@@ -9,6 +9,7 @@ import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.DeleteMessageResult;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.ReceiveMessageResult;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,17 +34,25 @@ public class SqsQueueService {
     }
 
     public QueueMessage sendMessage(String queueUrl, String messageBody) throws QueueException {
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(queueUrl, messageBody);
+        return sendMessage(sendMessageRequest);
+    }
+
+    public QueueMessage sendMessage(String queueUrl, String messageBody, int delayInSeconds) throws QueueException {
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(queueUrl, messageBody).withDelaySeconds(delayInSeconds);
+        return sendMessage(sendMessageRequest);
+    }
+    private QueueMessage sendMessage(SendMessageRequest sendMessageRequest) throws QueueException {
         try {
-            SendMessageResult sendMessageResult = sqsClient.sendMessage(queueUrl, messageBody);
+            SendMessageResult sendMessageResult = sqsClient.sendMessage(sendMessageRequest);
 
             logger.info("Message sent to SQS queue - {}", sendMessageResult);
-            return QueueMessage.of(sendMessageResult, messageBody);
+            return QueueMessage.of(sendMessageResult, sendMessageRequest.getMessageBody());
         } catch (AmazonSQSException | UnsupportedOperationException e) {
             logger.error("Failed sending message to SQS queue - {}", e.getMessage());
             throw new QueueException(e.getMessage());
         }
     }
-
     public List<QueueMessage> receiveMessages(String queueUrl, String messageAttributeName) throws QueueException {
         try {
             ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl);
