@@ -42,6 +42,7 @@ public class SqsQueueService {
         SendMessageRequest sendMessageRequest = new SendMessageRequest(queueUrl, messageBody).withDelaySeconds(delayInSeconds);
         return sendMessage(sendMessageRequest);
     }
+    
     private QueueMessage sendMessage(SendMessageRequest sendMessageRequest) throws QueueException {
         try {
             SendMessageResult sendMessageResult = sqsClient.sendMessage(sendMessageRequest);
