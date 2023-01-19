@@ -10,6 +10,7 @@ import com.amazonaws.services.sqs.model.AmazonSQSException;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.ReceiveMessageResult;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import org.junit.Assert;
 import org.junit.Before;
@@ -62,7 +63,9 @@ public class SqsQueueServiceTest {
     public void shouldSendMessageToQueueSuccessfully() throws QueueException {
         SendMessageResult sendMessageResult = new SendMessageResult();
         sendMessageResult.setMessageId("test-message-id");
-        when(mockSqsClient.sendMessage(QUEUE_URL, MESSAGE)).thenReturn(sendMessageResult);
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
+        
+        when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
 
         QueueMessage message = sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);
         assertEquals("test-message-id", message.getMessageId());
@@ -73,9 +76,27 @@ public class SqsQueueServiceTest {
         assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - {MessageId: test-message-id")), is(true));
     }
 
+    @Test
+    public void shouldSendMessageWithDelayToQueueSuccessfully() throws QueueException {
+        SendMessageResult sendMessageResult = new SendMessageResult();
+        sendMessageResult.setMessageId("test-message-id");
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE).withDelaySeconds(2);
+
+        when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
+
+        QueueMessage message = sqsQueueService.sendMessage(QUEUE_URL, MESSAGE, 2);
+        assertEquals("test-message-id", message.getMessageId());
+
+        verify(mockAppender, times(1)).doAppend(loggingEventArgumentCaptor.capture());
+        List<LoggingEvent> logEvents = loggingEventArgumentCaptor.getAllValues();
+
+        assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - {MessageId: test-message-id")), is(true));
+    }
+
     @Test(expected = QueueException.class)
     public void shouldThrowExceptionIfMessageIsNotSentToQueue() throws QueueException {
-        when(mockSqsClient.sendMessage(QUEUE_URL, MESSAGE)).thenThrow(AmazonSQSException.class);
+        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
+        when(mockSqsClient.sendMessage(sendMessageRequest)).thenThrow(AmazonSQSException.class);
 
         sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);
     }

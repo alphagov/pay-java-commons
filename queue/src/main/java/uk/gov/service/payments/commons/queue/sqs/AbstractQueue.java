@@ -26,6 +26,10 @@ public abstract class AbstractQueue {
         return sqsQueueService.sendMessage(queueUrl, message);
     }
 
+    public QueueMessage sendMessageToQueueWithDelay(String message, int delayInSeconds) throws QueueException {
+        return sqsQueueService.sendMessage(queueUrl, message, delayInSeconds);
+    }
+
     public List<QueueMessage> retrieveMessages() throws QueueException {
         return sqsQueueService
                 .receiveMessages(this.queueUrl, MESSAGE_ATTRIBUTES_TO_RECEIVE);
