@@ -220,9 +220,9 @@ public interface LoggingKeys {
     String DISPUTE_EXTERNAL_ID = "dispute_external_id";
 
     /**
-     * Agreement external ID
+     * Agreement ID
      */
-    String AGREEMENT_EXTERNAL_ID = "agreement_external_id";
+    String AGREEMENT_ID = "agreement_id";
 
     /**
      * The authorisation mode for a payment
