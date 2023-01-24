@@ -219,4 +219,14 @@ public interface LoggingKeys {
      */
     String DISPUTE_EXTERNAL_ID = "dispute_external_id";
 
+    /**
+     * Agreement external ID
+     */
+    String AGREEMENT_EXTERNAL_ID = "agreement_external_id";
+
+    /**
+     * The authorisation mode for a payment
+     */
+    String AUTHORISATION_MODE = "authorisation_mode";
+
 }
