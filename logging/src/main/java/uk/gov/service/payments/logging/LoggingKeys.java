@@ -229,4 +229,9 @@ public interface LoggingKeys {
      */
     String AUTHORISATION_MODE = "authorisation_mode";
 
+    /**
+     * Payment instrument external ID
+     */
+    String PAYMENT_INSTRUMENT_EXTERNAL_ID = "payment_instrument_external_id";
+
 }
