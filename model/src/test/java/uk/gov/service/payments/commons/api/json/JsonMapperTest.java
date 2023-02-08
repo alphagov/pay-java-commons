@@ -29,4 +29,11 @@ public class JsonMapperTest {
         List<String> fromJson = jsonObjectMapper.getAsListOfString(jsonNode);
         assertThat(fromJson, contains("foo", "bar"));
     }
+
+    @Test
+    public void shouldMapToObjectMap() throws JsonProcessingException {
+        JsonNode jsonNode = objectMapper.readTree("{\"foo\":{\"other\":\"faa\"}}");
+        Map<String, Object> fromJson = jsonObjectMapper.getAsObjectMap(jsonNode);
+        assertThat(fromJson, hasEntry("foo", Map.of("other", "faa")));
+    }
 }

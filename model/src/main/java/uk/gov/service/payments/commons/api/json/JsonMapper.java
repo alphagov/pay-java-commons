@@ -28,7 +28,20 @@ public class JsonMapper {
             }
         }
         return null;
-    }    
+    }
+
+    public Map<String, Object> getAsObjectMap(JsonNode jsonNode) {
+        if (jsonNode != null) {
+            if (!jsonNode.isNull() && jsonNode.isObject()) {
+                try {
+                    return objectMapper.readValue(jsonNode.traverse(), new TypeReference<Map<String, Object>>() {});
+                } catch (IOException e) {
+                    throw new RuntimeException("Malformed JSON object in value", e);
+                }
+            }
+        }
+        return null;
+    }
     
     public List<String> getAsListOfString(JsonNode jsonNode) {
         if (jsonNode != null) {

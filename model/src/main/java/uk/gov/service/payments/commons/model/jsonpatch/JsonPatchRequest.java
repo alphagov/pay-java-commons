@@ -79,6 +79,10 @@ public class JsonPatchRequest {
         return jsonObjectMapper.getAsMap(value);
     }
 
+    public Map<String, Object> valueAdObjectMap() {
+        return jsonObjectMapper.getAsObjectMap(value);
+    }
+
 
     private JsonPatchRequest(JsonPatchOp op, String path, JsonNode value) {
         this.op = op;
