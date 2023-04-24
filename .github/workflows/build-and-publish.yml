@@ -29,6 +29,49 @@ jobs:
       - name: Set package version
         run: |
           mvn versions:set -DnewVersion="1.0.$(date +"%Y%m%d%H%M%S")"
+
+      - name: Check Signing Key Validity
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          echo
+          echo "Checking signing key for validity"
+          # See https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS for details of all the columns
+          SECRET_KEY_DETAILS=$(gpg --with-colons --fixed-list-mode --show-keys <<<"$GPG_PRIVATE_KEY" | grep "^sec:")
+          SECRET_KEY_VALIDITY=$(cut -f "2" -d ":" <<< "$SECRET_KEY_DETAILS")
+          SECRET_KEY_EXPIRATION_TIMESTAMP=$(cut -f "7" -d ":" <<< "$SECRET_KEY_DETAILS")
+
+          if [ "$(uname)" == "Darwin" ]; then
+            SECRET_KEY_EXPIRATION_DATE=$(date -j -f "%s" "$SECRET_KEY_EXPIRATION_TIMESTAMP")
+          else
+            SECRET_KEY_EXPIRATION_DATE=$(date -d "@${SECRET_KEY_EXPIRATION_TIMESTAMP}")
+          fi
+
+          case "$SECRET_KEY_VALIDITY" in
+            f)
+              echo "Key is valid"
+              exit 0
+              ;;
+            e)
+              echo "Key has expired!"
+              echo
+
+              echo "Key expired on $SECRET_KEY_EXPIRATION_DATE"
+              ;;
+            i)
+              echo "Key is invalid!"
+              ;;
+            *)
+              echo "Key is in an unknown state. Key details are:"
+              echo "$SECRET_KEY_DETAILS"
+              echo
+              echo "See https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS for key detail description"
+          esac
+
+          echo
+          echo "Key cannot work for signing commits"
+          exit 1
+
       - name: Release Maven package
         uses: samuelmeuli/action-maven-publish@9001e5ada637a021e98c752a0b292c01151378b5
         with:
