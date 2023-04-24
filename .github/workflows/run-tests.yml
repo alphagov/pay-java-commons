@@ -34,8 +34,3 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Run unit tests
         run: mvn clean test
-
-  check-signing-key:
-    uses: ./.github/workflows/_check_gpg_signing_key.yml
-    secrets:
-      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
