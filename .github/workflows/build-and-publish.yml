@@ -10,7 +10,13 @@ permissions:
   contents: read
 
 jobs:
+  check-signing-key:
+    uses: ./.github/workflows/_check_gpg_signing_key.yml
+    secrets:
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
   release:
+    needs: check-signing-key
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -29,6 +35,7 @@ jobs:
       - name: Set package version
         run: |
           mvn versions:set -DnewVersion="1.0.$(date +"%Y%m%d%H%M%S")"
+
       - name: Release Maven package
         uses: samuelmeuli/action-maven-publish@9001e5ada637a021e98c752a0b292c01151378b5
         with:
