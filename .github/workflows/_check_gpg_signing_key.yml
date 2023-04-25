@@ -1,4 +1,4 @@
-name: Check GPG Signing Key Validity
+name: Check GPG Signing Key Expiration
 
 on:
   workflow_call:
@@ -13,12 +13,13 @@ jobs:
   check-signing-key:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Signing Key Validity
+      - name: Check Signing Key Expiry
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
         run: |
           echo
-          echo "Checking signing key for validity"
+          echo "Checking signing key for expiration"
+
           # See https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS for details of all the columns
           SECRET_KEY_DETAILS=$(gpg --with-colons --fixed-list-mode --show-keys <<<"$GPG_PRIVATE_KEY" | grep "^sec:")
           SECRET_KEY_VALIDITY=$(cut -f "2" -d ":" <<< "$SECRET_KEY_DETAILS")
@@ -30,29 +31,13 @@ jobs:
             SECRET_KEY_EXPIRATION_DATE=$(date -d "@${SECRET_KEY_EXPIRATION_TIMESTAMP}")
           fi
 
-          case "$SECRET_KEY_VALIDITY" in
-            f)
-              echo "Key is valid"
-              exit 0
-              ;;
-            e)
+          if [[ "$SECRET_KEY_VALIDITY" == "e" ]]; then
               echo "Key has expired!"
               echo
 
               echo "Key expired on $SECRET_KEY_EXPIRATION_DATE"
-              ;;
-            i)
-              echo "Key is invalid!"
-              ;;
-            *)
-              echo "Key is in an unknown state. Key details are:"
-              echo "$SECRET_KEY_DETAILS"
-              echo
-              echo "See https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS for key detail description"
-          esac
+              exit 1
+          fi
 
           echo
-          echo "Key cannot work for signing commits"
-          exit 1
-
-
+          echo "Key does not expire until $SECRET_KEY_EXPIRATION_DATE"
