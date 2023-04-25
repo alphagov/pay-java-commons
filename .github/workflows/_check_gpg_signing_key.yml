@@ -36,6 +36,8 @@ jobs:
               echo
 
               echo "Key expired on $SECRET_KEY_EXPIRATION_DATE"
+              echo
+              echo "See https://pay-team-manual.cloudapps.digital/manual/credential-management/rotate-maven-signing-key.html for help extending/rotating the key"
               exit 1
           fi
 
