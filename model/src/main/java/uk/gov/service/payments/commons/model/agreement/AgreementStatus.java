@@ -6,6 +6,7 @@ import java.util.Optional;
 public enum AgreementStatus {
     CREATED,
     ACTIVE,
+    INACTIVE,
     CANCELLED,
     EXPIRED;
 
