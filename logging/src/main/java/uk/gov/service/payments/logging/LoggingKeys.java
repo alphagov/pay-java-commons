@@ -170,6 +170,11 @@ public interface LoggingKeys {
     String REFUND_EXTERNAL_ID = "refund_external_id";
 
     /**
+     * The resource (e.g. payment, refund) external ID. Used when log line could relate to one of multiple resource types 
+     */
+    String RESOURCE_EXTERNAL_ID = "resource_external_id";
+
+    /**
      * Secure Token
      */
     String SECURE_TOKEN = "secure_token";
@@ -233,5 +238,10 @@ public interface LoggingKeys {
      * Payment instrument external ID
      */
     String PAYMENT_INSTRUMENT_EXTERNAL_ID = "payment_instrument_external_id";
+
+    /**
+     * The ID that AWS assigns to an SQS message
+     */
+    String SQS_MESSAGE_ID = "sqs_message_id";
 
 }
