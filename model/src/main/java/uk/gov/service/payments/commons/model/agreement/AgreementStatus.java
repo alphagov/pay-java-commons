@@ -7,8 +7,7 @@ public enum AgreementStatus {
     CREATED,
     ACTIVE,
     INACTIVE,
-    CANCELLED,
-    EXPIRED;
+    CANCELLED;
 
     public static Optional<AgreementStatus> from(String agreementStatusName) {
         return Arrays.stream(AgreementStatus.values())
