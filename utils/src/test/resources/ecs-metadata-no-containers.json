@@ -1,0 +1,16 @@
+{
+  "Cluster": "arn:aws:ecs:eu-west-1:223851549868:cluster/test-12-fargate",
+  "TaskARN": "arn:aws:ecs:eu-west-1:223851549868:task/test-12-fargate/b322172c022b4a8c9411f923350cb623",
+  "Family": "test-12_connector_FG",
+  "Revision": "1282",
+  "DesiredStatus": "RUNNING",
+  "KnownStatus": "RUNNING",
+  "Limits": {
+    "CPU": 1,
+    "Memory": 2048
+  },
+  "PullStartedAt": "2023-07-18T13:22:34.58954997Z",
+  "PullStoppedAt": "2023-07-18T13:22:43.458867564Z",
+  "AvailabilityZone": "eu-west-1a",
+  "Containers": []
+}
