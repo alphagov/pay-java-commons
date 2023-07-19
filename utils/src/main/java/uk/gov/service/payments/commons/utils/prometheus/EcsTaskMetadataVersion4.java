@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 /**
  * Extracts relevant information from the <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-metadata-endpoint-v4.html">AWS ECS task metadata endpoint version 4</a>.
  */
@@ -59,7 +61,7 @@ public class EcsTaskMetadataVersion4 {
                 c -> new JSONObject((Map) c).getString("Image").contains("govukpay/" + application.strip())
         ).collect(Collectors.toList());
         if (applicationContainer.isEmpty()) {
-            throw new JSONException("The ecs task metadata json does not have the key 'Containers'.");
+            throw new JSONException(format("The ecs task metadata json does not have a \"Container\" where the \"Image\" contains govukpay/%s.", application));
         }
         JSONObject container = new JSONObject((Map) applicationContainer.get(0));
         return container;
