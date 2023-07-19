@@ -15,7 +15,7 @@ public class EcsContainerMetadataVersion4 {
     private final String ecsTaskId;
     private final String containerImageTag;
     private final String serviceName;
-    private final String instanceLabel;
+    private final String instanceIP;
 
     /**
      * Will throw a runtime exception if JSON is not valid.
@@ -44,7 +44,7 @@ public class EcsContainerMetadataVersion4 {
         } catch (JSONException e) {
             instanceLabel = null;
         }
-        this.instanceLabel = instanceLabel;
+        this.instanceIP = instanceLabel;
             
     }
     
@@ -68,7 +68,7 @@ public class EcsContainerMetadataVersion4 {
         return accountName;
     }
 
-    public Optional<String> getInstanceLabel() {
-        return Optional.ofNullable(instanceLabel);
+    public Optional<String> getInstanceIP() {
+        return Optional.ofNullable(instanceIP);
     }
 }

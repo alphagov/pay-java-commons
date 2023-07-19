@@ -23,7 +23,7 @@ public class EcsContainerMetadataVersion4Test {
     
     @Test
     void extractInstanceLabel() {
-        assertEquals("172.18.64.83", ecsTaskMetadata.getInstanceLabel().get());
+        assertEquals("172.18.64.83", ecsTaskMetadata.getInstanceIP().get());
     }
     
     @Test
@@ -31,7 +31,7 @@ public class EcsContainerMetadataVersion4Test {
         var ecsContainerMetadata = new JSONObject(new String(getClass().getClassLoader().getResourceAsStream("ecs-container-metadata.json").readAllBytes()));
         ecsContainerMetadata.remove("Networks");
         EcsContainerMetadataVersion4 ecsTaskMetadata = new EcsContainerMetadataVersion4(ecsContainerMetadata.toString());
-        assertTrue(ecsTaskMetadata.getInstanceLabel().isEmpty());
+        assertTrue(ecsTaskMetadata.getInstanceIP().isEmpty());
     }
     
     @Test
