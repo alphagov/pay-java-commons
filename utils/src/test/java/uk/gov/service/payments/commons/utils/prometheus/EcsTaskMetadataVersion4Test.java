@@ -17,8 +17,7 @@ public class EcsTaskMetadataVersion4Test {
     @BeforeAll
     static void setup() throws IOException {
         ecsTaskMetadata = new EcsTaskMetadataVersion4(
-                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-task-metadata.json").readAllBytes()),
-                "connector");
+                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-metadata.json").readAllBytes()));
     }
     
     @Test
@@ -29,8 +28,7 @@ public class EcsTaskMetadataVersion4Test {
     @Test
     void extractEmptyInstanceLabel() throws Exception {
         EcsTaskMetadataVersion4 ecsTaskMetadata = new EcsTaskMetadataVersion4(
-                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-task-metadata-no-network.json").readAllBytes()), 
-                "connector");
+                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-metadata-no-network.json").readAllBytes()));
         assertTrue(ecsTaskMetadata.getInstanceLabel().isEmpty());
     }
     
@@ -41,10 +39,7 @@ public class EcsTaskMetadataVersion4Test {
     
     @Test
     void shouldThrowExceptionIfInvalidJsonProvided() {
-        assertThrows(JSONException.class, () -> new EcsTaskMetadataVersion4("{\"Cluster\":\"arn\"", "connector"));
-        assertThrows(JSONException.class, () -> new EcsTaskMetadataVersion4(
-                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-metadata-no-containers.json").readAllBytes()), 
-                "connector"));
+        assertThrows(JSONException.class, () -> new EcsTaskMetadataVersion4("{\"Cluster\":\"arn\""));
     }
     
     @Test
