@@ -1,0 +1,48 @@
+{
+  "Cluster": "arn:aws:ecs:eu-west-1:223851549868:cluster/test-12-fargate",
+  "TaskARN": "arn:aws:ecs:eu-west-1:223851549868:task/test-12-fargate/b322172c022b4a8c9411f923350cb623",
+  "Family": "test-12_connector_FG",
+  "Revision": "1282",
+  "DesiredStatus": "RUNNING",
+  "KnownStatus": "RUNNING",
+  "Limits": {
+    "CPU": 1,
+    "Memory": 2048
+  },
+  "PullStartedAt": "2023-07-18T13:22:34.58954997Z",
+  "PullStoppedAt": "2023-07-18T13:22:43.458867564Z",
+  "AvailabilityZone": "eu-west-1a",
+  "Containers": [
+    {
+      "DockerId": "b322172c022b4a8c9411f923350cb623-1121955312",
+      "Name": "connector",
+      "DockerName": "connector",
+      "Image": "223851549868.dkr.ecr.eu-west-1.amazonaws.com/govukpay/connector:PP-11223-4",
+      "ImageID": "sha256:4bf6f8731c9cd4c059b50c50b02e21f97825fc912b8e20bd654b9a7c5f7f7403",
+      "Labels": {
+        "com.amazonaws.ecs.cluster": "arn:aws:ecs:eu-west-1:223851549868:cluster/test-12-fargate",
+        "com.amazonaws.ecs.container-name": "connector",
+        "com.amazonaws.ecs.task-arn": "arn:aws:ecs:eu-west-1:223851549868:task/test-12-fargate/b322172c022b4a8c9411f923350cb623",
+        "com.amazonaws.ecs.task-definition-family": "test-12_connector_FG",
+        "com.amazonaws.ecs.task-definition-version": "1282"
+      },
+      "DesiredStatus": "RUNNING",
+      "KnownStatus": "RUNNING",
+      "Limits": {
+        "CPU": 512,
+        "Memory": 1024
+      },
+      "CreatedAt": "2023-07-18T13:22:48.545270151Z",
+      "StartedAt": "2023-07-18T13:22:48.545270151Z",
+      "Type": "NORMAL",
+      "ContainerARN": "arn:aws:ecs:eu-west-1:223851549868:container/test-12-fargate/b322172c022b4a8c9411f923350cb623/c2139c9f-dfb3-4b70-a9ea-85394952607b",
+      "LogOptions": {
+        "awslogs-group": "test-12__docker",
+        "awslogs-region": "eu-west-1",
+        "awslogs-stream": "test-12/connector/b322172c022b4a8c9411f923350cb623"
+      },
+      "LogDriver": "awslogs",
+      "Snapshotter": "overlayfs"
+    }
+  ]
+}

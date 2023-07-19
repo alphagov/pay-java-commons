@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EcsTaskMetadataVersion4Test {
     
@@ -16,6 +17,17 @@ public class EcsTaskMetadataVersion4Test {
     @BeforeAll
     static void setup() throws IOException {
         ecsTaskMetadata = new EcsTaskMetadataVersion4(new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-task-metadata.json").readAllBytes()));
+    }
+    
+    @Test
+    void extractInstanceLabel() {
+        assertEquals("172.18.64.83", ecsTaskMetadata.getInstanceLabel().get());
+    }
+    
+    @Test
+    void extractEmptyInstanceLabel() throws Exception {
+        EcsTaskMetadataVersion4 ecsTaskMetadata = new EcsTaskMetadataVersion4(new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-task-metadata-no-network.json").readAllBytes()));
+        assertTrue(ecsTaskMetadata.getInstanceLabel().isEmpty());
     }
     
     @Test
