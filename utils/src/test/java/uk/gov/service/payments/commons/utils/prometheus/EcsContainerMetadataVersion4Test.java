@@ -1,6 +1,7 @@
 package uk.gov.service.payments.commons.utils.prometheus;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EcsTaskMetadataVersion4Test {
+public class EcsContainerMetadataVersion4Test {
     
-    private static EcsTaskMetadataVersion4 ecsTaskMetadata;
+    private static EcsContainerMetadataVersion4 ecsTaskMetadata;
     
     @BeforeAll
     static void setup() throws IOException {
-        ecsTaskMetadata = new EcsTaskMetadataVersion4(
-                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-metadata.json").readAllBytes()));
+        ecsTaskMetadata = new EcsContainerMetadataVersion4(
+                new String(EcsContainerMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-metadata.json").readAllBytes()));
     }
     
     @Test
@@ -27,8 +28,9 @@ public class EcsTaskMetadataVersion4Test {
     
     @Test
     void extractEmptyInstanceLabel() throws Exception {
-        EcsTaskMetadataVersion4 ecsTaskMetadata = new EcsTaskMetadataVersion4(
-                new String(EcsTaskMetadataVersion4Test.class.getClassLoader().getResourceAsStream("ecs-container-metadata-no-network.json").readAllBytes()));
+        var ecsContainerMetadata = new JSONObject(new String(getClass().getClassLoader().getResourceAsStream("ecs-container-metadata.json").readAllBytes()));
+        ecsContainerMetadata.remove("Networks");
+        EcsContainerMetadataVersion4 ecsTaskMetadata = new EcsContainerMetadataVersion4(ecsContainerMetadata.toString());
         assertTrue(ecsTaskMetadata.getInstanceLabel().isEmpty());
     }
     
@@ -39,7 +41,7 @@ public class EcsTaskMetadataVersion4Test {
     
     @Test
     void shouldThrowExceptionIfInvalidJsonProvided() {
-        assertThrows(JSONException.class, () -> new EcsTaskMetadataVersion4("{\"Cluster\":\"arn\""));
+        assertThrows(JSONException.class, () -> new EcsContainerMetadataVersion4("{\"Cluster\":\"arn\""));
     }
     
     @Test

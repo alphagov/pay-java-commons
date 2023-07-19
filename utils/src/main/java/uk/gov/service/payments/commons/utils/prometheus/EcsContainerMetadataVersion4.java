@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Extracts relevant information from the <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-metadata-endpoint-v4.html">AWS ECS task metadata endpoint version 4</a>.
  */
-public class EcsTaskMetadataVersion4 {
+public class EcsContainerMetadataVersion4 {
 
     private final String clusterName;
     private final String accountName;
@@ -21,7 +21,7 @@ public class EcsTaskMetadataVersion4 {
      * Will throw a runtime exception if JSON is not valid.
      * @param ecsContainerMetadataJson A valid <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-metadata-endpoint-v4.html">Container metadata JSON</a>
      */
-    public EcsTaskMetadataVersion4(String ecsContainerMetadataJson) {
+    public EcsContainerMetadataVersion4(String ecsContainerMetadataJson) {
         JSONObject ecsContainerMetadata = new JSONObject(ecsContainerMetadataJson);
 
         JSONObject labels = ecsContainerMetadata.getJSONObject("Labels");
