@@ -37,14 +37,14 @@ public class EcsContainerMetadataVersion4 {
 
         this.serviceName = ecsContainerMetadata.getString("Name");
         
-        String instanceLabel;
+        String instanceIP;
         try {
-            instanceLabel = (String) ecsContainerMetadata.getJSONArray("Networks")
+            instanceIP = (String) ecsContainerMetadata.getJSONArray("Networks")
                     .getJSONObject(0).getJSONArray("IPv4Addresses").get(0);
         } catch (JSONException e) {
-            instanceLabel = null;
+            instanceIP = null;
         }
-        this.instanceIP = instanceLabel;
+        this.instanceIP = instanceIP;
             
     }
     
