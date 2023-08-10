@@ -20,8 +20,8 @@ public class PrometheusDefaultLabelSampleBuilder implements SampleBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(PrometheusDefaultLabelSampleBuilder.class);
 
-    private final Map<String, String> labels = new LinkedHashMap<>();
-    
+    private final Map<String, String> ecsLabels = new LinkedHashMap<>();
+
     public PrometheusDefaultLabelSampleBuilder(URI ecsContainerMetadataUriV4) {
         try {
             logger.info("Getting container metadata from " + ecsContainerMetadataUriV4);
@@ -31,13 +31,13 @@ public class PrometheusDefaultLabelSampleBuilder implements SampleBuilder {
             logger.info("Status code from ECS: " + response.statusCode());
             if (response.statusCode() == 200) {
                 var containerMetadata = new EcsContainerMetadataVersion4(response.body());
-                labels.put("containerImageTag", containerMetadata.getContainerImageTag());
-                labels.put("ecsClusterName", containerMetadata.getClusterName());
-                labels.put("ecsServiceName", containerMetadata.getServiceName());
-                labels.put("ecsTaskID", containerMetadata.getEcsTaskId());
-                labels.put("awsAccountName", containerMetadata.getAccountName());
+                ecsLabels.put("containerImageTag", containerMetadata.getContainerImageTag());
+                ecsLabels.put("ecsClusterName", containerMetadata.getClusterName());
+                ecsLabels.put("ecsServiceName", containerMetadata.getServiceName());
+                ecsLabels.put("ecsTaskID", containerMetadata.getEcsTaskId());
+                ecsLabels.put("awsAccountName", containerMetadata.getAccountName());
                 Optional<String> instanceIP = containerMetadata.getInstanceIP();
-                instanceIP.ifPresentOrElse(ip -> labels.put("instance", ip),
+                instanceIP.ifPresentOrElse(ip -> ecsLabels.put("instance", ip),
                         () -> logger.info("There was no IP for the container with ecsTaskID {} and ecsServiceName {}.",
                                 containerMetadata.getEcsTaskId(), containerMetadata.getServiceName()));
             }
@@ -47,16 +47,22 @@ public class PrometheusDefaultLabelSampleBuilder implements SampleBuilder {
     }
 
     @Override
-    public Collector.MetricFamilySamples.Sample createSample(String dropwizardName, 
-                                                             String nameSuffix, 
-                                                             List<String> additionalLabelNames, 
-                                                             List<String> additionalLabelValues, 
+    public Collector.MetricFamilySamples.Sample createSample(String dropwizardName, String nameSuffix,
+                                                             List<String> additionalLabelNames,
+                                                             List<String> additionalLabelValues,
                                                              double value) {
         final String suffix = nameSuffix == null ? "" : nameSuffix;
+
+        List<String> finalLabelNames = new ArrayList<>(additionalLabelNames);
+        List<String> finalLabelValues = new ArrayList<>(additionalLabelValues);
+
+        finalLabelNames.addAll(ecsLabels.keySet());
+        finalLabelValues.addAll(ecsLabels.values());
+
         return new Collector.MetricFamilySamples.Sample(
                 Collector.sanitizeMetricName(dropwizardName + suffix),
-                new ArrayList<>(labels.keySet()),
-                new ArrayList<>(labels.values()),
+                finalLabelNames,
+                finalLabelValues,
                 value);
     }
 }
