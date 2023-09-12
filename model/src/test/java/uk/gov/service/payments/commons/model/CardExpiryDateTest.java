@@ -189,7 +189,33 @@ class CardExpiryDateTest {
         assertThat(cardExpiryDate.toYearMonth(), is(YearMonth.of(2099, OCTOBER)));
         assertThat(cardExpiryDate.toString(), is("10/99"));
     }
+    
+    @Test
+    void createSuccessfullyFromYearMonthWithOneDigitMonth() {
+        int expiryDateYear = 2023;
+        int expiryDateMonth = 8;
+        var yearMonth = YearMonth.of(expiryDateYear, expiryDateMonth);
+        var cardExpiryDate = CardExpiryDate.valueOf(yearMonth);
+        assertThat(cardExpiryDate.getTwoDigitYear(), is("23"));
+        assertThat(cardExpiryDate.getFourDigitYear(), is("2023"));
+        assertThat(cardExpiryDate.getTwoDigitMonth(), is("08"));
+        assertThat(cardExpiryDate.toYearMonth(), is(YearMonth.of(2023, AUGUST)));
+        assertThat(cardExpiryDate.toString(), is("08/23"));
+    }
 
+    @Test
+    void createSuccessfullyFromYearMonthWithTwoDigitMonth() {
+        int expiryDateYear = 2023;
+        int expiryDateMonth = 11;
+        var yearMonth = YearMonth.of(expiryDateYear, expiryDateMonth);
+        var cardExpiryDate = CardExpiryDate.valueOf(yearMonth);
+        assertThat(cardExpiryDate.getTwoDigitYear(), is("23"));
+        assertThat(cardExpiryDate.getFourDigitYear(), is("2023"));
+        assertThat(cardExpiryDate.getTwoDigitMonth(), is("11"));
+        assertThat(cardExpiryDate.toYearMonth(), is(YearMonth.of(2023, NOVEMBER)));
+        assertThat(cardExpiryDate.toString(), is("11/23"));
+    }
+    
     @Test
     void month1WithNoLeadingZeroThrowsException() {
         var input = "1/22";

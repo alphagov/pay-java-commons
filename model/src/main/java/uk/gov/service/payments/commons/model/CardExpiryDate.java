@@ -25,7 +25,13 @@ public class CardExpiryDate {
         this.month2Digits = matcher.group(1);
         this.year2Digits = matcher.group(2);
     }
-
+    
+    private CardExpiryDate(YearMonth expiryDate) {
+        int month = expiryDate.getMonthValue();
+        this.month2Digits = (month < 10) ? ("0" + month) : String.valueOf(month);
+        this.year2Digits = String.valueOf(expiryDate.getYear()).substring(2,4);
+    }
+    
     /**
      * Parses a string in the MM/yy format used for expiry dates on most
      * payment cards into a CardExpiryDate. For example, "09/22".
@@ -37,7 +43,11 @@ public class CardExpiryDate {
     public static CardExpiryDate valueOf(String expiryDate) {
         return new CardExpiryDate(expiryDate);
     }
-
+    
+    public static CardExpiryDate valueOf(YearMonth expiryDate) {
+        return new CardExpiryDate(expiryDate);
+    }
+    
     public String getTwoDigitMonth() {
         return month2Digits;
     }
