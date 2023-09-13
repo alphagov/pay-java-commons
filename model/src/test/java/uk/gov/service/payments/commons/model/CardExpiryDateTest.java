@@ -218,16 +218,16 @@ class CardExpiryDateTest {
     
     @Test
     void dateAfter2100ThrowsException() {
-        int expiryDateYear = 2123;
-        int expiryDateMonth = 11;
+        int expiryDateYear = 2100;
+        int expiryDateMonth = 1;
         var yearMonth = YearMonth.of(expiryDateYear, expiryDateMonth);
         assertThrows(IllegalArgumentException.class, () -> CardExpiryDate.valueOf(yearMonth));
     }
 
     @Test
     void dateBefore2000ThrowsException() {
-        int expiryDateYear = 1993;
-        int expiryDateMonth = 11;
+        int expiryDateYear = 1999;
+        int expiryDateMonth = 12;
         var yearMonth = YearMonth.of(expiryDateYear, expiryDateMonth);
         assertThrows(IllegalArgumentException.class, () -> CardExpiryDate.valueOf(yearMonth));
     }
