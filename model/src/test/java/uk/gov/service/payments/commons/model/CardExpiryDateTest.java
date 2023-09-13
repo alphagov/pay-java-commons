@@ -217,6 +217,22 @@ class CardExpiryDateTest {
     }
     
     @Test
+    void dateAfter2100ThrowsException() {
+        int expiryDateYear = 2123;
+        int expiryDateMonth = 11;
+        var yearMonth = YearMonth.of(expiryDateYear, expiryDateMonth);
+        assertThrows(IllegalArgumentException.class, () -> CardExpiryDate.valueOf(yearMonth));
+    }
+
+    @Test
+    void dateBefore2000ThrowsException() {
+        int expiryDateYear = 1993;
+        int expiryDateMonth = 11;
+        var yearMonth = YearMonth.of(expiryDateYear, expiryDateMonth);
+        assertThrows(IllegalArgumentException.class, () -> CardExpiryDate.valueOf(yearMonth));
+    }
+    
+    @Test
     void month1WithNoLeadingZeroThrowsException() {
         var input = "1/22";
         assertThrows(IllegalArgumentException.class, () -> CardExpiryDate.valueOf(input));

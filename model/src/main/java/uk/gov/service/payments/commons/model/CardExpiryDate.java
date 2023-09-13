@@ -45,6 +45,9 @@ public class CardExpiryDate {
     }
     
     public static CardExpiryDate valueOf(YearMonth expiryDate) {
+        if (expiryDate.getYear() < 2000 || expiryDate.getYear() > 2100) {
+            throw new IllegalArgumentException("Expiry date must be in the range 01/2000 - 12/2099");
+        }
         return new CardExpiryDate(expiryDate);
     }
     
