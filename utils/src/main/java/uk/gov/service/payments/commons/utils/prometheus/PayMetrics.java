@@ -38,7 +38,7 @@ public class PayMetrics {
             logger.info("Status code from ECS: " + response.statusCode());
 
             if (response.statusCode() == 200) {
-                var containerMetadata = new EcsContainerMetadataVersion4(response.body());
+                EcsContainerMetadataVersion4 containerMetadata = new EcsContainerMetadataVersion4(response.body());
 
                 defaultLabels.addLabel("containerImageTag", containerMetadata.getContainerImageTag());
                 defaultLabels.addLabel("ecsClusterName", containerMetadata.getClusterName());
