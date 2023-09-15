@@ -17,14 +17,12 @@ public class PayMetrics {
 
     public static io.prometheus.client.CollectorRegistry initialisePrometheusMetrics(com.codahale.metrics.MetricRegistry dropwizardMetricRegistry, URI ecsContainerMetadataUriV4) {
         prometheusDefaultLabels(ecsContainerMetadataUriV4);
-        CollectorRegistry collectorRegistry = CollectorRegistry.defaultRegistry;
-        collectorRegistry.register(new DropwizardExports(dropwizardMetricRegistry, new PrometheusDefaultLabelSampleBuilder()));
-        return collectorRegistry;
+        return initialisePrometheusMetrics(dropwizardMetricRegistry);
     }
 
     public static io.prometheus.client.CollectorRegistry initialisePrometheusMetrics(com.codahale.metrics.MetricRegistry dropwizardMetricRegistry) {
         CollectorRegistry collectorRegistry = CollectorRegistry.defaultRegistry;
-        collectorRegistry.register(new DropwizardExports(dropwizardMetricRegistry));
+        collectorRegistry.register(new DropwizardExports(dropwizardMetricRegistry, new PrometheusDefaultLabelSampleBuilder()));
         return collectorRegistry;
     }
 
