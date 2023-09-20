@@ -7,7 +7,7 @@ on:
       - '.github/**'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   check-signing-key:
@@ -33,8 +33,11 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Set package version
+        id: set-package-version
         run: |
-          mvn versions:set -DnewVersion="1.0.$(date +"%Y%m%d%H%M%S")"
+          PACKAGE_VERSION="1.0.$(date +"%Y%m%d%H%M%S")"
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
+          mvn versions:set -DnewVersion="$PACKAGE_VERSION"
 
       - name: Release Maven package
         uses: samuelmeuli/action-maven-publish@9001e5ada637a021e98c752a0b292c01151378b5
@@ -44,3 +47,17 @@ jobs:
           nexus_username: ${{ secrets.MAVEN_USERNAME }}
           nexus_password: ${{ secrets.MAVEN_PASSWORD }}
           server_id: ossrh
+
+      - name: Create GitHub release
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const releaseResponse = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: "Release $PACKAGE_VERSION",
+              tag_name: "${{ steps.set-package-version.outputs.PACKAGE_VERSION }}",
+              generate_release_notes: true,
+            })
+            console.log(releaseResponse)
