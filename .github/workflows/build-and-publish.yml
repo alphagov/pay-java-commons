@@ -56,7 +56,7 @@ jobs:
             const releaseResponse = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: "Release $PACKAGE_VERSION",
+              name: "Release ${{ steps.set-package-version.outputs.PACKAGE_VERSION }}",
               tag_name: "${{ steps.set-package-version.outputs.PACKAGE_VERSION }}",
               generate_release_notes: true,
             })
