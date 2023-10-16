@@ -33,7 +33,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit5.version>5.9.3</junit5.version>
+        <junit5.version>5.10.0</junit5.version>
         <assertj.version>1.7.25</assertj.version>
         <jackson.version>2.15.2</jackson.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
