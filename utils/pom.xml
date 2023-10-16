@@ -15,7 +15,7 @@
 
     <properties>
         <dropwizard.version>2.1.4</dropwizard.version>
-        <eclipselink.version>2.7.11</eclipselink.version>
+        <eclipselink.version>4.0.2</eclipselink.version>
     </properties>
 
     <dependencies>
