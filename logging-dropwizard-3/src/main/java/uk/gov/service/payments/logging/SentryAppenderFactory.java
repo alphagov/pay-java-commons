@@ -69,8 +69,8 @@ public class SentryAppenderFactory extends AbstractAppenderFactory<ILoggingEvent
     @Override
     public Appender<ILoggingEvent> build(LoggerContext context, 
                                          String applicationName, 
-                                         LayoutFactory<ILoggingEvent> layoutFactory, 
-                                         LevelFilterFactory<ILoggingEvent> levelFilterFactory, 
+                                         LayoutFactory<ILoggingEvent> layoutFactory,
+                                         LevelFilterFactory<ILoggingEvent> levelFilterFactory,
                                          AsyncAppenderFactory<ILoggingEvent> asyncAppenderFactory) {
         Preconditions.checkNotNull(context);
         SentryOptions options = new SentryOptions();
