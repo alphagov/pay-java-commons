@@ -43,7 +43,7 @@
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-graphite</artifactId>
-            <version>4.2.23</version>
+            <version>4.2.25</version>
         </dependency>
         <!-- Test dependencies go below here -->
         <dependency>
