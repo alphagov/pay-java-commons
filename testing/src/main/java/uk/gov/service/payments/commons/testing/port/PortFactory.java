@@ -17,4 +17,18 @@ public class PortFactory {
         }
         return port;
     }
+
+    public static int findFreePortWithoutCollision(int... existingPorts) {
+        boolean collision = true;
+        int port = 0;
+
+        while (collision) {
+            port = findFreePort();
+            collision = false;
+            for (int existingPort : existingPorts) {
+                collision = collision || port == existingPort;
+            }
+        }
+        return port;
+    }
 }
