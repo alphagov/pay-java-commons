@@ -11,6 +11,17 @@ updates:
         # Dropwizard 2.x and 3.x use Hibernate Validator 6
         versions:
           - ">= 7"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - govuk-pay
+      - java
+  - package-ecosystem: maven
+    directory: "/logging-dropwizard-3"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    ignore:
       - dependency-name: "org.dhatim:dropwizard-sentry"
         # We essentially forked Dropwizard Sentry because it did not support
         # Dropwizard 3.x — there is now a Dropwizard Sentry 4.x, which supports
@@ -18,6 +29,17 @@ updates:
         # to go back to using an unmodified version
         versions:
           - ">= 4"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - govuk-pay
+      - java
+  - package-ecosystem: maven
+    directory: "/utils"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    ignore:
       - dependency-name: "org.eclipse.persistence:org.eclipse.persistence.jpa"
         # We use EclipseLink 2.7.x in our Java microservices
         versions:
