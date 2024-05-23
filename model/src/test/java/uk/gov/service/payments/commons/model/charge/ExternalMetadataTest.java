@@ -1,7 +1,6 @@
 package uk.gov.service.payments.commons.model.charge;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
@@ -15,9 +14,11 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
-import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.*;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MAX_KEY_LENGTH;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MAX_KEY_VALUE_PAIRS;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MAX_VALUE_LENGTH;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MIN_KEY_LENGTH;
 
 public class ExternalMetadataTest {
 

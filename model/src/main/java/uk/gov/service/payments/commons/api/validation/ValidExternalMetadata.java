@@ -1,7 +1,5 @@
 package uk.gov.service.payments.commons.api.validation;
 
-import uk.gov.service.payments.commons.model.charge.ExternalMetadata;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
@@ -12,7 +10,10 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.*;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MAX_KEY_LENGTH;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MAX_KEY_VALUE_PAIRS;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MAX_VALUE_LENGTH;
+import static uk.gov.service.payments.commons.model.charge.ExternalMetadata.MIN_KEY_LENGTH;
 
 @Target({FIELD, PARAMETER})
 @Retention(RUNTIME)

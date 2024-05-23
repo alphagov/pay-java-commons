@@ -7,26 +7,28 @@
     <artifactId>logging-dropwizard-3</artifactId>
     <packaging>jar</packaging>
 
-    <properties>
-        <dropwizard.version>3.0.3</dropwizard.version>
-        <hamcrest.version>2.2</hamcrest.version>
-    </properties>
-
     <parent>
         <artifactId>pay-java-commons</artifactId>
         <groupId>uk.gov.service.payments</groupId>
         <version>1.0.0</version>
     </parent>
     <dependencies>
+        <!-- Main dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
         <dependency>
-            <groupId>org.dhatim</groupId>
-            <artifactId>dropwizard-sentry</artifactId>
-            <version>2.1.6</version>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-json-logging</artifactId>
-            <version>${dropwizard.version}</version>
+        </dependency>
+
+        <!-- Main dependencies that need explicit versions -->
+        <dependency>
+            <groupId>org.dhatim</groupId>
+            <artifactId>dropwizard-sentry</artifactId>
+            <version>2.1.6</version>
         </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
@@ -34,21 +36,15 @@
             <version>7.4</version>
         </dependency>
         <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-core</artifactId>
-            <version>${dropwizard.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
-            <artifactId>jersey-guava</artifactId>
-            <version>2.25.1</version>
-        </dependency>
-        <!-- test dependencies -->
+
+        <!-- Test dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
+
+        <!-- Test dependencies that need explicit versions -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>

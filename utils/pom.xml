@@ -13,39 +13,40 @@
     <name>Utilities for production code</name>
     <packaging>jar</packaging>
 
-    <properties>
-        <dropwizard.version>2.1.12</dropwizard.version>
-        <eclipselink.version>2.7.14</eclipselink.version>
-    </properties>
-
+    <!-- Main dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> so no explicit versions needed -->
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>${eclipselink.version}</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
-            <version>${dropwizard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-db</artifactId>
-            <version>${dropwizard.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-testing</artifactId>
-            <version>${dropwizard.version}</version>
-        </dependency>
+
+        <!-- Main dependencies that need explicit versions -->
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-graphite</artifactId>
             <version>4.2.25</version>
         </dependency>
-        <!-- Test dependencies go below here -->
+
+
+        <!-- Test dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
+
+        <!-- Main dependencies that need explicit versions -->
+
+        <!-- Test dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-testing</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Test dependencies that need explicit versions -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
