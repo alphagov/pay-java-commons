@@ -37,6 +37,14 @@ updates:
         # to go back to using an unmodified version
         versions:
           - ">= 4"
+      - dependency-name: "io.dropwizard:dropwizard-dependencies"
+        # Dropwizard 4.x only works with Jakarta EE and not Java EE
+        versions:
+          - ">= 4"
+      - dependency-name: "io.dropwizard.modules:dropwizard-testing-junit4"
+        # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
+        versions:
+          - ">= 4"
     open-pull-requests-limit: 10
     labels:
       - dependencies
@@ -52,6 +60,71 @@ updates:
         # We use EclipseLink 2.7.x in our Java microservices
         versions:
           - ">= 3"
+      - dependency-name: "io.dropwizard:dropwizard-dependencies"
+        # Dropwizard 4.x only works with Jakarta EE and not Java EE
+        versions:
+          - ">= 4"
+      - dependency-name: "io.dropwizard.modules:dropwizard-testing-junit4"
+        # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
+        versions:
+          - ">= 4"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - govuk-pay
+      - java
+  - package-ecosystem: maven
+    directory: "/testing"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    ignore:
+      - dependency-name: "io.dropwizard:dropwizard-dependencies"
+        # Dropwizard 4.x only works with Jakarta EE and not Java EE
+        versions:
+          - ">= 4"
+      - dependency-name: "io.dropwizard.modules:dropwizard-testing-junit4"
+        # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
+        versions:
+          - ">= 4"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - govuk-pay
+      - java
+  - package-ecosystem: maven
+    directory: "/queue"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    ignore:
+      - dependency-name: "io.dropwizard:dropwizard-dependencies"
+        # Dropwizard 4.x only works with Jakarta EE and not Java EE
+        versions:
+          - ">= 4"
+      - dependency-name: "io.dropwizard.modules:dropwizard-testing-junit4"
+        # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
+        versions:
+          - ">= 4"
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - govuk-pay
+      - java
+  - package-ecosystem: maven
+    directory: "/model"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    ignore:
+      - dependency-name: "io.dropwizard:dropwizard-dependencies"
+        # Dropwizard 4.x only works with Jakarta EE and not Java EE
+        versions:
+          - ">= 4"
+      - dependency-name: "io.dropwizard.modules:dropwizard-testing-junit4"
+        # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
+        versions:
+          - ">= 4"
     open-pull-requests-limit: 10
     labels:
       - dependencies
