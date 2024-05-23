@@ -1,6 +1,5 @@
 package uk.gov.service.payments.commons.model.jsonpatch;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.gov.service.payments.commons.api.json.JsonMapper;

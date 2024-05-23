@@ -7,6 +7,14 @@ updates:
       interval: weekly
       time: "03:00"
     ignore:
+      - dependency-name: "io.dropwizard:dropwizard-dependencies"
+        # Dropwizard 4.x only works with Jakarta EE and not Java EE
+        versions:
+          - ">= 4"
+      - dependency-name: "io.dropwizard.modules:dropwizard-testing-junit4"
+        # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
+        versions:
+          - ">= 4"
       - dependency-name: "org.hibernate:hibernate-validator"
         # Dropwizard 2.x and 3.x use Hibernate Validator 6
         versions:
