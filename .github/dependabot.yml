@@ -15,10 +15,6 @@ updates:
         # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
         versions:
           - ">= 4"
-      - dependency-name: "org.hibernate:hibernate-validator"
-        # Dropwizard 2.x and 3.x use Hibernate Validator 6
-        versions:
-          - ">= 7"
     open-pull-requests-limit: 10
     labels:
       - dependencies
