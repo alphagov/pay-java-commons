@@ -1,8 +1,9 @@
 package uk.gov.service.payments.commons.testing.pact.consumers;
 
-import au.com.dius.pact.consumer.PactProviderRuleMk2;
-import au.com.dius.pact.model.FileSource;
-import au.com.dius.pact.model.RequestResponsePact;
+import au.com.dius.pact.consumer.junit.PactProviderRule;
+import au.com.dius.pact.core.model.DefaultPactReader;
+import au.com.dius.pact.core.model.FileSource;
+import au.com.dius.pact.core.model.RequestResponsePact;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
@@ -15,18 +16,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static au.com.dius.pact.model.PactReader.loadPact;
 import static com.google.common.io.Resources.getResource;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static uk.gov.service.payments.commons.testing.port.PortFactory.findFreePort;
 
-public class PactProviderRule extends PactProviderRuleMk2 {
+public class PayPactProviderRule extends PactProviderRule {
 
     private String methodName;
     private List<String> pactsToDelete = new ArrayList<>();
-    
-    public PactProviderRule(String provider, Object target) {
+
+    public PayPactProviderRule(String provider, Object target) {
         super(provider, "localhost", findFreePort(), target);
     }
 
@@ -37,7 +37,7 @@ public class PactProviderRule extends PactProviderRuleMk2 {
             @Override
             public void evaluate() throws Throwable {
                 try {
-                    PactProviderRule.super.apply(base, description).evaluate();
+                    PayPactProviderRule.super.apply(base, description).evaluate();
                 } finally {
                     after();
                 }
@@ -54,7 +54,7 @@ public class PactProviderRule extends PactProviderRuleMk2 {
                         stream(pactsAnnotation).forEach(p -> stream(p.pacts()).forEach(
                                 fileName -> {
                                     if (fileName.contains(provider)) {
-                                        RequestResponsePact pact = (RequestResponsePact) loadPact(new FileSource<>(new File(getResource(format("pacts/%s.json", fileName)).getFile())));
+                                        RequestResponsePact pact = (RequestResponsePact) DefaultPactReader.INSTANCE.loadPact(new FileSource<>(new File(getResource(format("pacts/%s.json", fileName)).getFile())));
                                         pacts.put(provider, pact);
                                     }
                                     if (!p.publish()) pactsToDelete.add(format("%s.json", fileName));
