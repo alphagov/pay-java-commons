@@ -1,6 +1,6 @@
 package uk.gov.service.payments.commons.testing.pact.consumers;
 
-import au.com.dius.pact.consumer.PactVerification;
+import au.com.dius.pact.consumer.junit.PactVerification;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.fluent.Request;
 import org.junit.Rule;
@@ -11,13 +11,13 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PactProviderRuleTest {
+public class PayPactProviderRuleTest {
 
     @Rule
-    public PactProviderRule stockQuoteService = new PactProviderRule("stock-quote-service", this);
+    public PayPactProviderRule stockQuoteService = new PayPactProviderRule("stock-quote-service", this);
 
     @Rule
-    public PactProviderRule weatherService = new PactProviderRule("weather-service", this);
+    public PayPactProviderRule weatherService = new PayPactProviderRule("weather-service", this);
 
     @Test
     @PactVerification({"stock-quote-service"})
