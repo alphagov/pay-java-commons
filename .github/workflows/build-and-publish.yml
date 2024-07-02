@@ -45,7 +45,7 @@ jobs:
           mvn versions:set -DnewVersion="$PACKAGE_VERSION"
 
       - name: Release Maven package
-        run: mvn deploy --batch-mode --settings "/home/runner/.m2/settings.xml"
+        run: mvn deploy --batch-mode --settings "/home/runner/.m2/settings.xml" -Dgpg.passphrase=$MAVEN_GPG_PASSPHRASE
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
