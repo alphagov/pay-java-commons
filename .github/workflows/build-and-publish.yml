@@ -36,21 +36,19 @@ jobs:
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          restore-keys: ${{ runner.os }}-m2-
       - name: Set package version
         id: set-package-version
         run: |
           PACKAGE_VERSION="1.0.$(date +"%Y%m%d%H%M%S")"
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> "$GITHUB_OUTPUT"
-          mvn versions:set -DnewVersion="$PACKAGE_VERSION"
-
+          mvn -B --no-transfer-progress versions:set -DnewVersion="$PACKAGE_VERSION"
       - name: Release Maven package
-        run: mvn deploy --batch-mode --settings "/home/runner/.m2/settings.xml"
+        run: mvn -B --no-transfer-progress deploy -P gpg-sign
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-
       - name: Create GitHub release
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
         with:
