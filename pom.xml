@@ -222,7 +222,7 @@
 
     <profiles>
         <profile>
-            <id>deploy</id>
+            <id>gpg-sign</id>
             <build>
                 <plugins>
                     <plugin>
