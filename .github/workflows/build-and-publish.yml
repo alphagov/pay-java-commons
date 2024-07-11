@@ -24,8 +24,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
-          java-version: '11'
-          distribution: 'adopt'
+          java-version: '21'
+          distribution: 'temurin'
           server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
           server-username: MAVEN_CENTRAL_USERNAME # env variable for username in deploy
           server-password: MAVEN_CENTRAL_TOKEN # pragma: allowlist secret  - env variable for token in deploy

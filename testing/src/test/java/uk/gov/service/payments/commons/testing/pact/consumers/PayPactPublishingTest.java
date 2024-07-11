@@ -1,6 +1,6 @@
 package uk.gov.service.payments.commons.testing.pact.consumers;
 
-import au.com.dius.pact.consumer.PactVerification;
+import au.com.dius.pact.consumer.junit.PactVerification;
 import org.apache.http.client.fluent.Request;
 import org.junit.AfterClass;
 import org.junit.Rule;
@@ -12,13 +12,13 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-public class PactPublishingTest {
+public class PayPactPublishingTest {
 
     @Rule
-    public PactProviderRule weatherService = new PactProviderRule("weather-service", this);
+    public PayPactProviderRule weatherService = new PayPactProviderRule("weather-service", this);
 
     @Rule
-    public PactProviderRule orderService = new PactProviderRule("order-service", this);
+    public PayPactProviderRule orderService = new PayPactProviderRule("order-service", this);
 
     @Test
     @PactVerification({"weather-service", "order-service"})
