@@ -45,8 +45,8 @@ public class ExternalMetadataTest {
     }
 
     @Test
-    public void shouldFailValidationWithMoreThan10Keys() {
-        Map<String, Object> metadata = IntStream.rangeClosed(1, 11).boxed()
+    public void shouldFailValidationWithMoreThan15Keys() {
+        Map<String, Object> metadata = IntStream.rangeClosed(1, 16).boxed()
                 .collect(Collectors.toUnmodifiableMap(i -> "key" + i, i-> "value" + i));
         ExternalMetadata invalidExternalMetadata = new ExternalMetadata(metadata);
 

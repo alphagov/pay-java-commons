@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ExternalMetadata {
 
-    public static final int MAX_KEY_VALUE_PAIRS = 10;
+    public static final int MAX_KEY_VALUE_PAIRS = 15;
     public static final int MIN_KEY_LENGTH = 1;
     public static final int MAX_KEY_LENGTH = 30;
     public static final int MAX_VALUE_LENGTH = 100;
