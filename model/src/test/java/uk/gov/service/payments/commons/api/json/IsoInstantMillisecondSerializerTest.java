@@ -11,9 +11,9 @@ import java.time.Instant;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-class ApiResponseInstantSerializerTest {
+class IsoInstantMillisecondSerializerTest {
 
-    private final ApiResponseInstantSerializer apiResponseInstantSerializer = new ApiResponseInstantSerializer();
+    private final IsoInstantMillisecondSerializer isoInstantMillisecondSerializer = new IsoInstantMillisecondSerializer();
 
     @Test
     void shouldSerializeWithMillisecondPrecision() throws IOException {
@@ -22,7 +22,7 @@ class ApiResponseInstantSerializerTest {
         var stringWriter = new StringWriter();
         var jsonGenerator = new JsonFactory().createGenerator(stringWriter);
 
-        apiResponseInstantSerializer.serialize(instant, jsonGenerator, new ObjectMapper().getSerializerProvider());
+        isoInstantMillisecondSerializer.serialize(instant, jsonGenerator, new ObjectMapper().getSerializerProvider());
         jsonGenerator.flush();
 
         var expected = "\"2020-12-25T15:00:00.123Z\"";

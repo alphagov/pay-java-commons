@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
 
-public class ApiResponseDateTimeFormatter {
+public class CommonDateTimeFormatters {
 
     /**
      * DateTimeFormatter that produces a standard ISO-8601 format date and time
@@ -27,6 +27,7 @@ public class ApiResponseDateTimeFormatter {
      * DateTimeFormatter that produces a standard ISO-8601 local date in UTC
      * without an offset, for example 2022-10-04
      */
-    public static final DateTimeFormatter ISO_LOCAL_DATE_IN_UTC = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
+    public static final DateTimeFormatter ISO_LOCAL_DATE_IN_UTC =
+            DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
 
 }

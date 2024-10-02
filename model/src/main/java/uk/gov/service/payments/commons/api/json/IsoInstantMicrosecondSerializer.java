@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.time.Instant;
 
-import static uk.gov.service.payments.commons.model.ApiResponseDateTimeFormatter.ISO_INSTANT_MICROSECOND_PRECISION;
+import static uk.gov.service.payments.commons.model.CommonDateTimeFormatters.ISO_INSTANT_MICROSECOND_PRECISION;
 
-public class ApiResponseInstantWithMicrosecondPrecisionSerializer extends StdSerializer<Instant> {
+public class IsoInstantMicrosecondSerializer extends StdSerializer<Instant> {
 
-    public ApiResponseInstantWithMicrosecondPrecisionSerializer() {
+    public IsoInstantMicrosecondSerializer() {
         this(null);
     }
 
-    private ApiResponseInstantWithMicrosecondPrecisionSerializer(Class<Instant> t) {
+    private IsoInstantMicrosecondSerializer(Class<Instant> t) {
         super(t);
     }
 
