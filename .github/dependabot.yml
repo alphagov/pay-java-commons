@@ -43,6 +43,12 @@ updates:
         versions:
           - ">= 4"
   - package-ecosystem: maven
+    directory: "/logging-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
     directory: "/utils"
     schedule:
       interval: weekly
@@ -62,6 +68,12 @@ updates:
         versions:
           - ">= 4"
   - package-ecosystem: maven
+    directory: "/utils-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
     directory: "/testing"
     schedule:
       interval: weekly
@@ -76,6 +88,12 @@ updates:
         # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
         versions:
           - ">= 4"
+  - package-ecosystem: maven
+    directory: "/testing-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
   - package-ecosystem: maven
     directory: "/queue"
     schedule:
@@ -92,6 +110,12 @@ updates:
         versions:
           - ">= 4"
   - package-ecosystem: maven
+    directory: "/queue-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
     directory: "/model"
     schedule:
       interval: weekly
@@ -106,6 +130,12 @@ updates:
         # dropwizard-testing-junit4 4.x only works with Dropwizard 4.x
         versions:
           - ">= 4"
+  - package-ecosystem: maven
+    directory: "/model-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
