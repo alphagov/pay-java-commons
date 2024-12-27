@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>pay-java-commons</artifactId>
+        <groupId>uk.gov.service.payments</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>utils-dropwizard-4</artifactId>
+    <name>Utilities for production code DW 4</name>
+    <packaging>jar</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-dependencies</artifactId>
+                <version>4.0.13</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Main dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> so no explicit versions needed -->
+    <dependencies>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-db</artifactId>
+        </dependency>
+
+        <!-- Main dependencies that need explicit versions -->
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-graphite</artifactId>
+            <version>4.2.30</version>
+        </dependency>
+
+
+        <!-- Test dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
+
+        <!-- Main dependencies that need explicit versions -->
+
+        <!-- Test dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-testing</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Test dependencies that need explicit versions -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
