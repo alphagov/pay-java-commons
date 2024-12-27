@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>logging-dropwizard-3</artifactId>
+    <name>Common logging</name>
     <packaging>jar</packaging>
 
     <parent>

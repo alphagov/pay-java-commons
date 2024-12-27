@@ -38,12 +38,18 @@
 
     <modules>
         <module>testing</module>
+        <module>testing-dropwizard-4</module>
         <module>utils</module>
+        <module>utils-dropwizard-4</module>
         <module>model</module>
+        <module>model-dropwizard-4</module>
         <module>validation</module>
+        <module>validation-dropwizard-4</module>
         <module>logging-dropwizard-3</module>
+        <module>logging-dropwizard-4</module>
         <module>queue</module>
         <module>queue-java-aws-sdk-v2</module>
+        <module>queue-dropwizard-4</module>
     </modules>
 
     <dependencyManagement>
@@ -61,11 +67,6 @@
     <dependencies>
        <!-- Test dependencies that are imported from one of the BOMs specified
             in <dependencyManagement> so no explicit versions needed -->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
