@@ -62,10 +62,14 @@ public class SqsQueueServiceTest {
     @Test
     public void shouldSendMessageToQueueSuccessfully() throws QueueException {
         SendMessageResponse sendMessageResult = SendMessageResponse.builder()
+                .messageId("test-message-id")
                 .build();
-        sendMessageResult.messageId("test-message-id");
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
-        
+
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(QUEUE_URL)
+                .messageBody(MESSAGE)
+                .build();
+
         when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
 
         QueueMessage message = sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);
@@ -80,9 +84,14 @@ public class SqsQueueServiceTest {
     @Test
     public void shouldSendMessageWithDelayToQueueSuccessfully() throws QueueException {
         SendMessageResponse sendMessageResult = SendMessageResponse.builder()
+                .messageId("test-message-id")
                 .build();
-        sendMessageResult.messageId("test-message-id");
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE).delaySeconds(2);
+
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(QUEUE_URL)
+                .messageBody(MESSAGE)
+                .delaySeconds(2)
+                .build();
 
         when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
 
@@ -97,7 +106,11 @@ public class SqsQueueServiceTest {
 
     @Test(expected = QueueException.class)
     public void shouldThrowExceptionIfMessageIsNotSentToQueue() throws QueueException {
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(QUEUE_URL)
+                .messageBody(MESSAGE)
+                .build();
+        
         when(mockSqsClient.sendMessage(sendMessageRequest)).thenThrow(SqsException.class);
 
         sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);
