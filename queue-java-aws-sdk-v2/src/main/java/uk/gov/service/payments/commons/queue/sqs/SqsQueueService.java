@@ -34,11 +34,19 @@ public class SqsQueueService {
     }
 
     public QueueMessage sendMessage(String queueUrl, String messageBody) throws QueueException {
-        return SendMessageRequest.builder()
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
                 .queueUrl(queueUrl)
                 .messageBody(messageBody)
                 .build();
+
+        try {
+            SendMessageResponse sendMessageResponse = sqsClient.sendMessage(sendMessageRequest);
+            return QueueMessage.of(sendMessageResponse, messageBody);
+        } catch (SqsException e) {
+            throw new QueueException("Failed to send message to SQS", e);
+        }
     }
+
 
     public QueueMessage sendMessage(String queueUrl, String messageBody, int delayInSeconds) throws QueueException {
         SendMessageRequest sendMessageRequest = new SendMessageRequest(queueUrl, messageBody).delaySeconds(delayInSeconds);
