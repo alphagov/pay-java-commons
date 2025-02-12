@@ -49,7 +49,11 @@ public class SqsQueueService {
 
 
     public QueueMessage sendMessage(String queueUrl, String messageBody, int delayInSeconds) throws QueueException {
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(queueUrl, messageBody).delaySeconds(delayInSeconds);
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(queueUrl)
+                .messageBody(messageBody)
+                .delaySeconds(delayInSeconds)
+                .build();
         return sendMessage(sendMessageRequest);
     }
     
@@ -67,8 +71,8 @@ public class SqsQueueService {
     
     public List<QueueMessage> receiveMessages(String queueUrl, String messageAttributeName) throws QueueException {
         try {
-            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl);
-            receiveMessageRequest
+            ReceiveMessageRequest receiveMessageRequest = ReceiveMessageRequest.builder()
+                    .queueUrl(queueUrl)
                     .messageAttributeNames(messageAttributeName)
                     .waitTimeSeconds(messageMaximumWaitTimeInSeconds)
                     .maxNumberOfMessages(messageMaximumBatchSize);
@@ -84,7 +88,11 @@ public class SqsQueueService {
 
     public DeleteMessageResponse deleteMessage(String queueUrl, String messageReceiptHandle) throws QueueException {
         try {
-            return sqsClient.deleteMessage(new DeleteMessageRequest(queueUrl, messageReceiptHandle));
+            DeleteMessageRequest deleteMessageRequest = DeleteMessageRequest.builder()
+                    .queueUrl(queueUrl)
+                    .receiptHandle(messageReceiptHandle)
+                    .build();
+            return sqsClient.deleteMessage(deleteMessageRequest);
         } catch (SqsException | UnsupportedOperationException e) {
             logger.error("Failed to delete message from SQS queue - {}", e.getMessage());
             throw new QueueException(e.getMessage());
@@ -97,10 +105,11 @@ public class SqsQueueService {
 
     public ChangeMessageVisibilityResponse deferMessage(String queueUrl, String messageReceiptHandle, int timeoutInSeconds) throws QueueException {
         try {
-            ChangeMessageVisibilityRequest changeMessageVisibilityRequest = new ChangeMessageVisibilityRequest(
-                    queueUrl,
-                    messageReceiptHandle,
-                    timeoutInSeconds);
+            ChangeMessageVisibilityRequest changeVisibilityRequest = ChangeMessageVisibilityRequest.builder()
+                    .queueUrl(queueUrl)
+                    .receiptHandle(messageReceiptHandle)
+                    .visibilityTimeout(timeoutInSeconds)
+                    .build();
 
             return sqsClient.changeMessageVisibility(changeMessageVisibilityRequest);
         } catch (SqsException | UnsupportedOperationException e) {
