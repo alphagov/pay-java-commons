@@ -112,7 +112,7 @@ public class SqsQueueService {
                     .visibilityTimeout(timeoutInSeconds)
                     .build();
 
-            return sqsClient.changeMessageVisibility(changeMessageVisibilityRequest);
+            return sqsClient.changeMessageVisibility(changeVisibilityRequest);
         } catch (SqsException | UnsupportedOperationException e) {
             logger.error("Failed to defer message from SQS queue - {}", e.getMessage());
             throw new QueueException(e.getMessage());
