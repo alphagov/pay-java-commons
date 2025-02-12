@@ -40,8 +40,7 @@ public class SqsQueueService {
                 .build();
 
         try {
-            SendMessageResponse sendMessageResponse = sqsClient.sendMessage(sendMessageRequest);
-            return QueueMessage.of(sendMessageResponse, messageBody);
+            return sendMessage(sendMessageRequest);
         } catch (SqsException e) {
             throw new QueueException(e.getMessage());
         }
