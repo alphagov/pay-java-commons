@@ -118,14 +118,15 @@ public class SqsQueueServiceTest {
 
     @Test
     public void shouldReceiveMessagesFromQueueSuccessfully() throws QueueException {
-        ReceiveMessageResponse receiveMessageResult = ReceiveMessageResponse.builder()
-                .build();
         Message message = Message.builder()
+                .messageId("test-message-id")
+                .receiptHandle("test-receipt-handle")
+                .body("test-message-body")
                 .build();
-        message.messageId("test-message-id");
-        message.receiptHandle("test-receipt-handle");
-        message.body("test-message-body");
-        receiveMessageResult.messages().add(message);
+
+        ReceiveMessageResponse receiveMessageResult = ReceiveMessageResponse.builder()
+                .messages(message)
+                .build();
 
         when(mockSqsClient.receiveMessage(any(ReceiveMessageRequest.class))).thenReturn(receiveMessageResult);
 
