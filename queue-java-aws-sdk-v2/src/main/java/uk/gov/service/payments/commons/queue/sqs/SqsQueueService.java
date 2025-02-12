@@ -75,7 +75,8 @@ public class SqsQueueService {
                     .queueUrl(queueUrl)
                     .messageAttributeNames(messageAttributeName)
                     .waitTimeSeconds(messageMaximumWaitTimeInSeconds)
-                    .maxNumberOfMessages(messageMaximumBatchSize);
+                    .maxNumberOfMessages(messageMaximumBatchSize)
+                    .build();
 
             ReceiveMessageResponse receiveMessageResult = sqsClient.receiveMessage(receiveMessageRequest);
 
