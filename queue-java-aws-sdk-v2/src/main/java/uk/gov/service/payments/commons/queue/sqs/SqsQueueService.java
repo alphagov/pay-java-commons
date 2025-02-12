@@ -43,7 +43,7 @@ public class SqsQueueService {
             SendMessageResponse sendMessageResponse = sqsClient.sendMessage(sendMessageRequest);
             return QueueMessage.of(sendMessageResponse, messageBody);
         } catch (SqsException e) {
-            throw new QueueException("Failed to send message to SQS", e);
+            throw new QueueException(e.getMessage());
         }
     }
 
