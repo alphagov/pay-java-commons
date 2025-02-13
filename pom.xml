@@ -43,6 +43,7 @@
         <module>validation</module>
         <module>logging-dropwizard-3</module>
         <module>queue</module>
+        <module>queue-java-aws-sdk-v2</module>
     </modules>
 
     <dependencyManagement>
