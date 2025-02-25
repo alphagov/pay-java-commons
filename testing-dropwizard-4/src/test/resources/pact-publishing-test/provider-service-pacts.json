@@ -1,0 +1,31 @@
+{
+  "_links":{
+    "self":{
+      "href":"http://localhost:50000/pacts/provider/provider-service/latest/master",
+      "title":"Latest pact versions for the provider provider-service with consumer version tag 'master'"
+    },
+    "pb:provider":{
+      "href":"http://localhost:50000/pacticipants/provider-service",
+      "name":"provider-service"
+    },
+    "pb:pacts":[
+      {
+        "href":"http://localhost:50000/pacts/provider/provider-service/consumer/consumer-service/version/2f2b6a9755cfaefe87567548272049d335678f95",
+        "title":"Pact between consumer-service (v2f2b6a9755cfaefe87567548272049d335678f95) and provider-service",
+        "name":"consumer-service"
+      }
+    ],
+    "provider":{
+      "href":"http://localhost:50000/pacticipants/provider-service",
+      "title":"provider-service",
+      "name":"DEPRECATED - please use the pb:provider relation"
+    },
+    "pacts":[
+      {
+        "href":"http://localhost:50000/pacts/provider/provider-service/consumer/consumer-service/version/2f2b6a9755cfaefe87567548272049d335678f95",
+        "title":"DEPRECATED - please use the pb:pacts relation. Pact between consumer-service (v2f2b6a9755cfaefe87567548272049d335678f95) and provider-service",
+        "name":"consumer-service"
+      }
+    ]
+  }
+}
