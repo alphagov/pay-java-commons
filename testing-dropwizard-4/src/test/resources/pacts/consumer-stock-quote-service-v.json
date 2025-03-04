@@ -1,0 +1,47 @@
+{
+  "consumer": {
+    "name": "consumer"
+  },
+  "provider": {
+    "name": "stock-quote-service"
+  },
+  "interactions": [
+    {
+      "description": "Request for Visa price",
+      "request": {
+        "method": "GET",
+        "path": "/stocks/V"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "Visa",
+          "price": "100.00",
+          "currency": "USD"
+        },
+        "matchingRules": {
+          "$.body.name": {
+            "match": "type"
+          },
+          "$.body.currency": {
+            "match": "type"
+          },
+          "$.body.price": {
+            "match": "type"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pact-specification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "3.5.16"
+    }
+  }
+}
