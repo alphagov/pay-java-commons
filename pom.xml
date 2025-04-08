@@ -37,13 +37,13 @@
     </properties>
 
     <modules>
-        <module>testing-dropwizard-4</module>
-        <module>utils-dropwizard-4</module>
-        <module>model-dropwizard-4</module>
-        <module>validation-dropwizard-4</module>
-        <module>logging-dropwizard-4</module>
+        <module>testing</module>
+        <module>utils</module>
+        <module>model</module>
+        <module>validation</module>
+        <module>logging</module>
         <module>queue-java-aws-sdk-v2</module>
-        <module>queue-dropwizard-4</module>
+        <module>queue</module>
     </modules>
 
     <dependencyManagement>

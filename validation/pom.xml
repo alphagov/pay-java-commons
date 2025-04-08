@@ -9,8 +9,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>validation-dropwizard-4</artifactId>
-    <name>Common validations DW 4</name>
+    <artifactId>validation</artifactId>
+    <name>Common validations</name>
     <packaging>jar</packaging>
 
     <dependencies>

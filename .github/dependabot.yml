@@ -12,37 +12,37 @@ updates:
       - govuk-pay
       - java
   - package-ecosystem: maven
-    directory: "/logging-dropwizard-4"
+    directory: "/logging"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
-    directory: "/utils-dropwizard-4"
+    directory: "/utils"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
-    directory: "/testing-dropwizard-4"
+    directory: "/testing"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
-    directory: "/queue-dropwizard-4"
+    directory: "/queue"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
-    directory: "/model-dropwizard-4"
+    directory: "/model"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
-    directory: "/validation-dropwizard-4"
+    directory: "/validation"
     schedule:
       interval: weekly
       time: "03:00"

@@ -9,8 +9,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>utils-dropwizard-4</artifactId>
-    <name>Utilities for production code DW 4</name>
+    <artifactId>utils</artifactId>
+    <name>Utilities for production code</name>
     <packaging>jar</packaging>
 
     <!-- Main dependencies that are imported from one of the BOMs specified

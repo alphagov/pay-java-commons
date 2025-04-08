@@ -9,8 +9,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>testing-dropwizard-4</artifactId>
-    <name>Testing Utils DW 4</name>
+    <artifactId>testing</artifactId>
+    <name>Testing Utils</name>
     <packaging>jar</packaging>
 
     <properties>

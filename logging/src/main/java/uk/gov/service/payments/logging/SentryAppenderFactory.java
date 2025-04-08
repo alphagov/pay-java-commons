@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@JsonTypeName("pay-dropwizard-4-sentry")
+@JsonTypeName("pay-sentry")
 public class SentryAppenderFactory extends AbstractAppenderFactory<ILoggingEvent> {
 
     @JsonProperty

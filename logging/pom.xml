@@ -3,15 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>logging</artifactId>
+    <name>Common logging</name>
+    <packaging>jar</packaging>
+
     <parent>
         <artifactId>pay-java-commons</artifactId>
         <groupId>uk.gov.service.payments</groupId>
         <version>1.0.0</version>
     </parent>
-
-    <artifactId>queue-dropwizard-4</artifactId>
-    <name>Classes for receiving and sending queue messages DW 4</name>
-    <packaging>jar</packaging>
 
     <dependencies>
         <!-- Main dependencies that are imported from one of the BOMs specified
@@ -27,15 +28,36 @@
 
         <!-- Main dependencies that need explicit versions -->
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sqs</artifactId>
-            <version>1.12.782</version>
+            <groupId>org.dhatim</groupId>
+            <artifactId>dropwizard-sentry</artifactId>
+            <version>4.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.1.0</version>
         </dependency>
 
         <!-- Test dependencies that are imported from one of the BOMs specified
              in <dependencyManagement> in the parent POM, so no explicit versions needed -->
 
         <!-- Test dependencies that need explicit versions -->
+        <dependency>
+            <groupId>io.dropwizard.modules</groupId>
+            <artifactId>dropwizard-testing-junit4</artifactId>
+            <version>4.0.13</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>

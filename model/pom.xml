@@ -9,8 +9,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>model-dropwizard-4</artifactId>
-    <name>Common domain model objects DW 4</name>
+    <artifactId>model</artifactId>
+    <name>Common domain model objects</name>
     <packaging>jar</packaging>
 
     <dependencies>
