@@ -9,18 +9,6 @@
         <version>1.0.0</version>
     </parent>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-dependencies</artifactId>
-                <version>4.0.13</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <artifactId>queue-dropwizard-4</artifactId>
     <name>Classes for receiving and sending queue messages DW 4</name>
     <packaging>jar</packaging>
