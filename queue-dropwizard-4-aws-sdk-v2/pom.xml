@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>queue-dropwizard-4-aws-sdk</artifactId>
+    <artifactId>queue-dropwizard-4-aws-sdk-v2</artifactId>
     <name>Classes for receiving and sending queue messages DW 4</name>
     <packaging>jar</packaging>
 
