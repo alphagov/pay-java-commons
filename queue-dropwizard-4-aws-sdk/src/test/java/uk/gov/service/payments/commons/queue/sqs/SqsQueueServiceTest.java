@@ -110,7 +110,6 @@ public class SqsQueueServiceTest {
                 .queueUrl(QUEUE_URL)
                 .messageBody(MESSAGE)
                 .build();
-        
         when(mockSqsClient.sendMessage(sendMessageRequest)).thenThrow(SqsException.class);
 
         sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);

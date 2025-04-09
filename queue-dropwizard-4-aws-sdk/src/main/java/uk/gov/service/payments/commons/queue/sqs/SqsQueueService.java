@@ -33,6 +33,7 @@ public class SqsQueueService {
         this.messageMaximumBatchSize = messageMaximumBatchSize;
     }
 
+
     public QueueMessage sendMessage(String queueUrl, String messageBody) throws QueueException {
         SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
                 .queueUrl(queueUrl)
@@ -45,7 +46,6 @@ public class SqsQueueService {
             throw new QueueException(e.getMessage());
         }
     }
-
 
     public QueueMessage sendMessage(String queueUrl, String messageBody, int delayInSeconds) throws QueueException {
         SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
@@ -67,7 +67,7 @@ public class SqsQueueService {
             throw new QueueException(e.getMessage());
         }
     }
-    
+
     public List<QueueMessage> receiveMessages(String queueUrl, String messageAttributeName) throws QueueException {
         try {
             ReceiveMessageRequest receiveMessageRequest = ReceiveMessageRequest.builder()
