@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sqs</artifactId>
-            <version>1.12.782</version>
+            <version>1.12.783</version>
         </dependency>
 
         <!-- Test dependencies that are imported from one of the BOMs specified
