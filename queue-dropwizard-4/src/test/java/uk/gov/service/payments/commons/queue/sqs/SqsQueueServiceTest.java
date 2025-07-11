@@ -5,13 +5,6 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
-import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.model.AmazonSQSException;
-import com.amazonaws.services.sqs.model.Message;
-import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
-import com.amazonaws.services.sqs.model.ReceiveMessageResult;
-import com.amazonaws.services.sqs.model.SendMessageRequest;
-import com.amazonaws.services.sqs.model.SendMessageResult;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +13,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.model.Message;
+import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest;
+import software.amazon.awssdk.services.sqs.model.ReceiveMessageResponse;
+import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
+import software.amazon.awssdk.services.sqs.model.SendMessageResponse;
+import software.amazon.awssdk.services.sqs.model.SqsException;
 import uk.gov.service.payments.commons.queue.exception.QueueException;
 import uk.gov.service.payments.commons.queue.model.QueueMessage;
 
@@ -42,7 +42,7 @@ public class SqsQueueServiceTest {
     private static final String MESSAGE_ATTRIBUTE_NAME = "All";
 
     @Mock
-    private AmazonSQS mockSqsClient;
+    private SqsClient mockSqsClient;
     @Mock
     private Appender<ILoggingEvent> mockAppender;
 
@@ -61,10 +61,15 @@ public class SqsQueueServiceTest {
 
     @Test
     public void shouldSendMessageToQueueSuccessfully() throws QueueException {
-        SendMessageResult sendMessageResult = new SendMessageResult();
-        sendMessageResult.setMessageId("test-message-id");
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
-        
+        SendMessageResponse sendMessageResult = SendMessageResponse.builder()
+                .messageId("test-message-id")
+                .build();
+
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(QUEUE_URL)
+                .messageBody(MESSAGE)
+                .build();
+
         when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
 
         QueueMessage message = sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);
@@ -73,14 +78,20 @@ public class SqsQueueServiceTest {
         verify(mockAppender, times(1)).doAppend(loggingEventArgumentCaptor.capture());
         List<LoggingEvent> logEvents = loggingEventArgumentCaptor.getAllValues();
 
-        assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - {MessageId: test-message-id")), is(true));
+        assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - SendMessageResponse(MessageId=test-message-id)")), is(true));
     }
 
     @Test
     public void shouldSendMessageWithDelayToQueueSuccessfully() throws QueueException {
-        SendMessageResult sendMessageResult = new SendMessageResult();
-        sendMessageResult.setMessageId("test-message-id");
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE).withDelaySeconds(2);
+        SendMessageResponse sendMessageResult = SendMessageResponse.builder()
+                .messageId("test-message-id")
+                .build();
+
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(QUEUE_URL)
+                .messageBody(MESSAGE)
+                .delaySeconds(2)
+                .build();
 
         when(mockSqsClient.sendMessage(sendMessageRequest)).thenReturn(sendMessageResult);
 
@@ -90,25 +101,31 @@ public class SqsQueueServiceTest {
         verify(mockAppender, times(1)).doAppend(loggingEventArgumentCaptor.capture());
         List<LoggingEvent> logEvents = loggingEventArgumentCaptor.getAllValues();
 
-        assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - {MessageId: test-message-id")), is(true));
+        assertThat(logEvents.stream().anyMatch(e -> e.getFormattedMessage().contains("Message sent to SQS queue - SendMessageResponse(MessageId=test-message-id)")), is(true));
     }
 
     @Test(expected = QueueException.class)
     public void shouldThrowExceptionIfMessageIsNotSentToQueue() throws QueueException {
-        SendMessageRequest sendMessageRequest = new SendMessageRequest(QUEUE_URL, MESSAGE);
-        when(mockSqsClient.sendMessage(sendMessageRequest)).thenThrow(AmazonSQSException.class);
+        SendMessageRequest sendMessageRequest = SendMessageRequest.builder()
+                .queueUrl(QUEUE_URL)
+                .messageBody(MESSAGE)
+                .build();
+        when(mockSqsClient.sendMessage(sendMessageRequest)).thenThrow(SqsException.class);
 
         sqsQueueService.sendMessage(QUEUE_URL, MESSAGE);
     }
 
     @Test
     public void shouldReceiveMessagesFromQueueSuccessfully() throws QueueException {
-        ReceiveMessageResult receiveMessageResult = new ReceiveMessageResult();
-        Message message = new Message();
-        message.setMessageId("test-message-id");
-        message.setReceiptHandle("test-receipt-handle");
-        message.setBody("test-message-body");
-        receiveMessageResult.getMessages().add(message);
+        Message message = Message.builder()
+                .messageId("test-message-id")
+                .receiptHandle("test-receipt-handle")
+                .body("test-message-body")
+                .build();
+
+        ReceiveMessageResponse receiveMessageResult = ReceiveMessageResponse.builder()
+                .messages(message)
+                .build();
 
         when(mockSqsClient.receiveMessage(any(ReceiveMessageRequest.class))).thenReturn(receiveMessageResult);
 
@@ -121,7 +138,8 @@ public class SqsQueueServiceTest {
 
     @Test
     public void shouldReturnEmptyListWhenReceiveDoesNotReturnAnyMessages() throws QueueException {
-        ReceiveMessageResult receiveMessageResult = new ReceiveMessageResult();
+        ReceiveMessageResponse receiveMessageResult = ReceiveMessageResponse.builder()
+                .build();
         when(mockSqsClient.receiveMessage(any(ReceiveMessageRequest.class))).thenReturn(receiveMessageResult);
 
         List<QueueMessage> queueMessages = sqsQueueService.receiveMessages(QUEUE_URL, MESSAGE_ATTRIBUTE_NAME);
@@ -130,7 +148,7 @@ public class SqsQueueServiceTest {
 
     @Test(expected = QueueException.class)
     public void shouldThrowExceptionIfMessageCannotBeReceivedFromQueue() throws QueueException {
-        when(mockSqsClient.receiveMessage(any(ReceiveMessageRequest.class))).thenThrow(AmazonSQSException.class);
+        when(mockSqsClient.receiveMessage(any(ReceiveMessageRequest.class))).thenThrow(SqsException.class);
 
         sqsQueueService.receiveMessages(QUEUE_URL, MESSAGE_ATTRIBUTE_NAME);
     }
