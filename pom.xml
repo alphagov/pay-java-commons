@@ -204,6 +204,7 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                     <autoPublish>true</autoPublish>
+                    <deploymentName>pay-java-commons</deploymentName>
                 </configuration>
             </plugin>
         </plugins>
