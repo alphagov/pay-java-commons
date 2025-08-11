@@ -1,7 +1,7 @@
 package uk.gov.service.payments.commons.queue.model;
 
-import com.amazonaws.services.sqs.model.ReceiveMessageResult;
-import com.amazonaws.services.sqs.model.SendMessageResult;
+import software.amazon.awssdk.services.sqs.model.ReceiveMessageResponse;
+import software.amazon.awssdk.services.sqs.model.SendMessageResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,16 +22,16 @@ public class QueueMessage {
         this(messageId, null, messageBody);
     }
 
-    public static List<QueueMessage> of(ReceiveMessageResult receiveMessageResult) {
+    public static List<QueueMessage> of(ReceiveMessageResponse receiveMessageResult) {
 
-        return receiveMessageResult.getMessages()
+        return receiveMessageResult.messages()
                 .stream()
-                .map(c -> new QueueMessage(c.getMessageId(), c.getReceiptHandle(), c.getBody()))
+                .map(c -> new QueueMessage(c.messageId(), c.receiptHandle(), c.body()))
                 .collect(Collectors.toList());
     }
 
-    public static QueueMessage of(SendMessageResult sendMessageResult, String messageBody) {
-        return new QueueMessage(sendMessageResult.getMessageId(), messageBody);
+    public static QueueMessage of(SendMessageResponse sendMessageResult, String messageBody) {
+        return new QueueMessage(sendMessageResult.messageId(), messageBody);
     }
 
     public String getMessageId() {
