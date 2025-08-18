@@ -43,7 +43,6 @@
         <module>validation-dropwizard-4</module>
         <module>logging-dropwizard-4</module>
         <module>queue-dropwizard-4</module>
-        <module>queue-dropwizard-4-aws-sdk-v2</module>
     </modules>
 
     <dependencyManagement>
