@@ -49,12 +49,7 @@
 
         <!-- Test dependencies that are imported from one of the BOMs specified
              in <dependencyManagement> in the parent POM, so no explicit versions needed -->
-        <dependency>
-            <groupId>io.dropwizard.modules</groupId>
-            <artifactId>dropwizard-testing-junit4</artifactId>
-            <version>4.0.16</version>
-            <scope>test</scope>
-        </dependency>
+
         <!-- Test dependencies that need explicit versions -->
     </dependencies>
 

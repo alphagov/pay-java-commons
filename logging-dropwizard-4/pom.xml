@@ -53,12 +53,6 @@
 
         <!-- Test dependencies that need explicit versions -->
         <dependency>
-            <groupId>io.dropwizard.modules</groupId>
-            <artifactId>dropwizard-testing-junit4</artifactId>
-            <version>4.0.16</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>${hamcrest.version}</version>
