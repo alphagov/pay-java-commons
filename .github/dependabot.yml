@@ -19,6 +19,10 @@ updates:
         # testcontainers v2 needs refactoring on our end
         versions:
           - ">= 2"
+      - dependency-name: "net.logstash.logback:logstash-logback-encoder"
+        # logstash 8+ needs refactoring on our end
+        versions:
+          - ">= 8"
     open-pull-requests-limit: 10
     labels:
       - dependencies
