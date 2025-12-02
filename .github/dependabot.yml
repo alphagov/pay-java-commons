@@ -31,13 +31,30 @@ updates:
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
+    directory: "/logging-dropwizard-5"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
     directory: "/utils-dropwizard-4"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
+    directory: "/utils-dropwizard-5"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
     directory: "/testing-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+  - package-ecosystem: maven
+    directory: "/testing-dropwizard-5"
     schedule:
       interval: weekly
       time: "03:00"
@@ -49,13 +66,30 @@ updates:
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
+    directory: "/queue-dropwizard-5"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
     directory: "/model-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+  - package-ecosystem: maven
+    directory: "/model-dropwizard-5"
     schedule:
       interval: weekly
       time: "03:00"
     open-pull-requests-limit: 10
   - package-ecosystem: maven
     directory: "/validation-dropwizard-4"
+    schedule:
+      interval: weekly
+      time: "03:00"
+    open-pull-requests-limit: 10
+  - package-ecosystem: maven
+    directory: "/validation-dropwizard-5"
     schedule:
       interval: weekly
       time: "03:00"
