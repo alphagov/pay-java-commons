@@ -1,0 +1,41 @@
+{
+  "consumer": {
+    "name": "consumer"
+  },
+  "provider": {
+    "name": "weather-service"
+  },
+  "interactions": [
+    {
+      "description": "Get weather for London",
+      "request": {
+        "method": "GET",
+        "path": "/weather/London"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "name": "London",
+          "temperature": "25",
+          "unit": "degrees"
+        },
+        "matchingRules": {
+          "$.body.temperature": {
+            "match": "type"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pact-specification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "3.5.16"
+    }
+  }
+}
