@@ -13,18 +13,6 @@
     <name>Utilities for production code DW 5</name>
     <packaging>jar</packaging>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-dependencies</artifactId>
-                <version>5.0.0</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <!-- Main dependencies that are imported from one of the BOMs specified
              in <dependencyManagement> so no explicit versions needed -->
     <dependencies>
@@ -43,12 +31,6 @@
             <artifactId>metrics-graphite</artifactId>
             <version>4.2.37</version>
         </dependency>
-
-
-        <!-- Test dependencies that are imported from one of the BOMs specified
-             in <dependencyManagement> in the parent POM, so no explicit versions needed -->
-
-        <!-- Main dependencies that need explicit versions -->
 
         <!-- Test dependencies that are imported from one of the BOMs specified
              in <dependencyManagement> in the parent POM, so no explicit versions needed -->
