@@ -37,17 +37,11 @@
     </properties>
 
     <modules>
-        <module>logging-dropwizard-4</module>
         <module>logging-dropwizard-5</module>
-        <module>model-dropwizard-4</module>
         <module>model-dropwizard-5</module>
-        <module>queue-dropwizard-4</module>
         <module>queue-dropwizard-5</module>
-        <module>testing-dropwizard-4</module>
         <module>testing-dropwizard-5</module>
-        <module>utils-dropwizard-4</module>
         <module>utils-dropwizard-5</module>
-        <module>validation-dropwizard-4</module>
         <module>validation-dropwizard-5</module>
     </modules>
 
@@ -56,7 +50,7 @@
             <dependency>
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-dependencies</artifactId>
-                <version>4.0.16</version>
+                <version>5.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -96,7 +90,7 @@
         <dependency>
             <groupId>io.dropwizard.modules</groupId>
             <artifactId>dropwizard-testing-junit4</artifactId>
-            <version>4.0.16</version>
+            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
