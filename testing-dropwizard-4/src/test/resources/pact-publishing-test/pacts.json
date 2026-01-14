@@ -1,0 +1,86 @@
+{
+  "_links":{
+    "self":{
+      "href":"http://localhost:50000",
+      "title":"Index",
+      "templated":false
+    },
+    "pb:publish-pact":{
+      "href":"http://localhost:50000/pacts/provider/{provider}/consumer/{consumer}/version/{consumerApplicationVersion}",
+      "title":"Publish a pact",
+      "templated":true
+    },
+    "pb:latest-pact-versions":{
+      "href":"http://localhost:50000/pacts/latest",
+      "title":"Latest pact versions",
+      "templated":false
+    },
+    "pb:tagged-pact-versions":{
+      "href":"http://localhost:50000/pacts/provider/{provider}/consumer/{consumer}/tag/{tag}",
+      "title":"All versions of a pact for a given consumer, provider and consumer version tag",
+      "templated":false
+    },
+    "pb:pacticipants":{
+      "href":"http://localhost:50000/pacticipants",
+      "title":"Pacticipants",
+      "templated":false
+    },
+    "pb:latest-provider-pacts":{
+      "href":"http://localhost:50000/pacts/provider/{provider}/latest",
+      "title":"Latest pacts by provider",
+      "templated":true
+    },
+    "pb:latest-provider-pacts-with-tag":{
+      "href":"http://localhost:50000/pacts/provider/{provider}/latest/{tag}",
+      "title":"Latest pacts for provider with the specified tag",
+      "templated":true
+    },
+    "pb:provider-pacts-with-tag":{
+      "href":"http://localhost:50000/pacts/provider/{provider}/tag/{tag}",
+      "title":"All pact versions for the provider with the specified consumer version tag",
+      "templated":true
+    },
+    "pb:provider-pacts":{
+      "href":"http://localhost:50000/pacts/provider/{provider}",
+      "title":"All pact versions for the specified provider",
+      "templated":true
+    },
+    "pb:latest-version":{
+      "href":"http://localhost:50000/pacticipants/{pacticipant}/latest-version",
+      "title":"Latest pacticipant version",
+      "templated":true
+    },
+    "pb:latest-tagged-version":{
+      "href":"http://localhost:50000/pacticipants/{pacticipant}/latest-version/{tag}",
+      "title":"Latest pacticipant version with the specified tag",
+      "templated":true
+    },
+    "pb:webhooks":{
+      "href":"http://localhost:50000/webhooks",
+      "title":"Webhooks",
+      "templated":false
+    },
+    "pb:integrations":{
+      "href":"http://localhost:50000/integrations",
+      "title":"Integrations",
+      "templated":false
+    },
+    "beta:pending-provider-pacts":{
+      "href":"http://localhost:50000/pacts/provider/{provider}/pending",
+      "title":"Pending pact versions for the specified provider",
+      "templated":true
+    },
+    "curies":[
+      {
+        "name":"pb",
+        "href":"http://localhost:50000/doc/{rel}?context=index",
+        "templated":true
+      },
+      {
+        "name":"beta",
+        "href":"http://localhost:50000/doc/{rel}?context=index",
+        "templated":true
+      }
+    ]
+  }
+}
