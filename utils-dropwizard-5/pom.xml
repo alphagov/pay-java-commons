@@ -26,13 +26,6 @@
             <artifactId>dropwizard-db</artifactId>
         </dependency>
 
-        <!-- Main dependencies that need explicit versions -->
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-graphite</artifactId>
-            <version>4.2.39</version>
-        </dependency>
-
         <!-- Test dependencies that are imported from one of the BOMs specified
              in <dependencyManagement> in the parent POM, so no explicit versions needed -->
         <dependency>
