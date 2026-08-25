@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.gov.service.payments</groupId>
     <artifactId>pay-java-commons</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+
+    <name>GOV.UK Pay Java common repository</name>
     <description>Common functionality for GOV.UK Pay Java repositories</description>
     <url>https://github.com/alphagov/pay-java-commons/</url>
     <licenses>
@@ -16,25 +17,13 @@
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
-    <scm>
-        <connection>scm:git:git@github.com:alphagov/pay-java-commons.git</connection>
-        <developerConnection>scm:git:git@github.com:alphagov/pay-java-commons.git</developerConnection>
-        <url>git@github.com:alphagov/pay-java-commons.git</url>
-        <tag>HEAD</tag>
-    </scm>
+
     <developers>
         <developer>
             <name>GOV.UK Pay</name>
             <email>govuk-pay-support@digital.cabinet-office.gov.uk</email>
         </developer>
     </developers>
-
-    <name>GOV.UK Pay Java common repository</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hamcrest.version>3.0</hamcrest.version>
-    </properties>
 
     <modules>
         <module>logging-dropwizard-5</module>
@@ -43,7 +32,20 @@
         <module>testing-dropwizard-5</module>
         <module>utils-dropwizard-5</module>
         <module>validation-dropwizard-5</module>
+        <module>platform-bom</module>
     </modules>
+
+    <scm>
+        <connection>scm:git:git@github.com:alphagov/pay-java-commons.git</connection>
+        <developerConnection>scm:git:git@github.com:alphagov/pay-java-commons.git</developerConnection>
+        <url>git@github.com:alphagov/pay-java-commons.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hamcrest.version>3.0</hamcrest.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -56,10 +58,9 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
-       <!-- Test dependencies that are imported from one of the BOMs specified
-            in <dependencyManagement> so no explicit versions needed -->
+        <!-- Test dependencies that are imported from one of the BOMs specified
+             in <dependencyManagement> so no explicit versions needed -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
