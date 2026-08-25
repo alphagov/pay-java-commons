@@ -12,6 +12,8 @@
     <artifactId>platform-bom</artifactId>
     <packaging>pom</packaging>
 
+    <name>Common dependency versions</name>
+
     <properties>
         <jetty.version>12.1.10</jetty.version>
         <httpclient.version>5.6.3</httpclient.version>
