@@ -2,7 +2,7 @@ package uk.gov.service.payments.logging;
 
 /**
  * This file needs to be kept in sync with its Node.js consociate
- * @see <a href="https://github.com/alphagov/pay-js-commons/blob/master/src/logging-keys/index.js">https://github.com/alphagov/pay-js-commons/blob/master/src/logging-keys/index.js</a>
+ * @see <a href="https://github.com/govuk-pay/pay-js-commons/blob/master/src/logging-keys/index.js">https://github.com/govuk-pay/pay-js-commons/blob/master/src/logging-keys/index.js</a>
  */
 public interface LoggingKeys {
 
@@ -24,21 +24,21 @@ public interface LoggingKeys {
     /**
      * The digital wallet used for a payment
      * Value must be a value of the WalletType enum
-     * @see <a href="https://github.com/alphagov/pay-connector/blob/master/src/main/java/uk/gov/pay/connector/wallets/WalletType.java">WalletType</a>
+     * @see <a href="https://github.com/govuk-pay/pay-connector/blob/master/src/main/java/uk/gov/pay/connector/wallets/WalletType.java">WalletType</a>
      */
     String WALLET = "wallet";
 
     /**
      * The type of a gateway account
      * Value must be a value of the GatewayAccountEntity.Type enum
-     * @see <a href="https://github.com/alphagov/pay-connector/blob/master/src/main/java/uk/gov/pay/connector/gatewayaccount/model/GatewayAccountEntity.java">GatewayAccountEntity</a>
+     * @see <a href="https://github.com/govuk-pay/pay-connector/blob/master/src/main/java/uk/gov/pay/connector/gatewayaccount/model/GatewayAccountEntity.java">GatewayAccountEntity</a>
      */
     String GATEWAY_ACCOUNT_TYPE = "gateway_account_type";
 
     /**
      * The type of operation being performed with a gateway for a card payment
      * Value must be a value of the OperationType enum
-     * @see <a href="https://github.com/alphagov/pay-connector/blob/master/src/main/java/uk/gov/pay/connector/paymentprocessor/model/OperationType.java">OperationType</a>
+     * @see <a href="https://github.com/govuk-pay/pay-connector/blob/master/src/main/java/uk/gov/pay/connector/paymentprocessor/model/OperationType.java">OperationType</a>
      */
     String GATEWAY_CARD_OPERATION = "gateway_card_operation";
 
@@ -85,7 +85,7 @@ public interface LoggingKeys {
     /**
      * The type of an internal event recorded by Direct Debit
      * Value must be a value from the GovUkPayEventType enum
-     * @see <a href="https://github.com/alphagov/pay-direct-debit-connector/blob/master/src/main/java/uk/gov/pay/directdebit/events/model/GovUkPayEventType.java">GovUkPayEventType</a>
+     * @see <a href="https://github.com/govuk-pay/pay-direct-debit-connector/blob/master/src/main/java/uk/gov/pay/directdebit/events/model/GovUkPayEventType.java">GovUkPayEventType</a>
      */
     String DIRECT_DEBIT_INTERNAL_EVENT_TYPE = "direct_debit_internal_event_type";
 

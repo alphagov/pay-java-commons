@@ -10,7 +10,7 @@
 
     <name>GOV.UK Pay Java common repository</name>
     <description>Common functionality for GOV.UK Pay Java repositories</description>
-    <url>https://github.com/alphagov/pay-java-commons/</url>
+    <url>https://github.com/govuk-pay/pay-java-commons/</url>
     <licenses>
         <license>
             <name>MIT License</name>
@@ -36,9 +36,9 @@
     </modules>
 
     <scm>
-        <connection>scm:git:git@github.com:alphagov/pay-java-commons.git</connection>
-        <developerConnection>scm:git:git@github.com:alphagov/pay-java-commons.git</developerConnection>
-        <url>git@github.com:alphagov/pay-java-commons.git</url>
+        <connection>scm:git:git@github.com:govuk-pay/pay-java-commons.git</connection>
+        <developerConnection>scm:git:git@github.com:govuk-pay/pay-java-commons.git</developerConnection>
+        <url>git@github.com:govuk-pay/pay-java-commons.git</url>
         <tag>HEAD</tag>
     </scm>
 

@@ -1,12 +1,12 @@
 # pay-java-commons
-[![Release to maven](https://github.com/alphagov/pay-java-commons/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/alphagov/pay-java-commons/actions/workflows/build-and-publish.yml)
+[![Release to maven](https://github.com/govuk-pay/pay-java-commons/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/govuk-pay/pay-java-commons/actions/workflows/build-and-publish.yml)
 
 This project contains common code for use across GOV.UK Pay's Java projects. 
 Modules under this project are published to [Maven Central](https://repo1.maven.org/maven2/uk/gov/service/payments/).
 The latest version numbers can be found there. 
 
 # Github Actions
-The modules are updated via Github Actions, accessible in the [Actions](https://github.com/alphagov/pay-java-commons/actions) tab. These are automatic releases configured to push to Maven Central on merges to the `master` branch.
+The modules are updated via Github Actions, accessible in the [Actions](https://github.com/govuk-pay/pay-java-commons/actions) tab. These are automatic releases configured to push to Maven Central on merges to the `master` branch.
 
 # Pom.xml Configuration
 
@@ -33,7 +33,7 @@ To include the utils module, add this to your project's pom.xml:
 
 ## Licence
 
-[MIT License](https://github.com/alphagov/pay-java-commons/blob/master/LICENSE)
+[MIT License](https://github.com/govuk-pay/pay-java-commons/blob/master/LICENSE)
 
 ## Vulnerability Disclosure
 
