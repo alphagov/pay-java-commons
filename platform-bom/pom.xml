@@ -19,7 +19,7 @@
         <httpclient.version>5.6.3</httpclient.version>
         <httpcore.version>5.4.3</httpcore.version>
         <jackson.version>2.21.5</jackson.version>
-        <logback.version>1.5.35</logback.version>
+        <logback.version>1.6.3</logback.version>
     </properties>
 
     <dependencyManagement>
